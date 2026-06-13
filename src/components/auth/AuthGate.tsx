@@ -8,30 +8,19 @@ import { GraphCanvas } from "../canvas/GraphCanvas";
 import { Sidebar } from "../layout/Sidebar";
 import { useState } from "react";
 
-/**
- * AuthGate wraps the app:
- * - Not authenticated → shows SignIn
- * - Authenticated, no project → shows ProjectSelect
- * - Authenticated with project → shows canvas
- */
 export function AuthGate() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { project } = useProject();
   const { graph, selectedNode, scanAndLoad, selectNode } = useGraph();
   const [showCanvas, setShowCanvas] = useState(false);
 
-  if (isLoading) {
-    return (
-      <div style={styles.loading}>
-        <p style={{ color: "var(--color-text-secondary)" }}>Loading…</p>
-      </div>
-    );
-  }
-
+  // Show sign-in immediately — session check runs in background.
+  // The loading state only matters for the initial app boot.
   if (!isAuthenticated) {
     return <SignIn />;
   }
 
+  // Authenticated — show the app
   return (
     <div style={styles.wrapper}>
       <div style={styles.userMenuBar}>
@@ -78,13 +67,6 @@ export function AuthGate() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  loading: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    width: "100vw",
-  },
   wrapper: {
     height: "100%",
     width: "100%",
