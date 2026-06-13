@@ -1,83 +1,60 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import type { AuthProvider, AuthTab } from "../../core/auth";
+
+type AuthTab = "password" | "signup" | "passkey";
 
 const TABS: { key: AuthTab; label: string }[] = [
-  { key: "oauth", label: "OAuth" },
-  { key: "password", label: "Password" },
-  { key: "passkey", label: "Passkey" },
+  { key: "password", label: "Sign In" },
   { key: "signup", label: "Sign Up" },
+  { key: "passkey", label: "Passkey" },
 ];
 
-/**
- * Sign-in screen with tabs for:
- *   - OAuth (GitHub / Google)
- *   - Password (username + password + optional 2FA)
- *   - Passkey (WebAuthn platform authenticator)
- *   - Sign Up (create a local account)
- *   - Mock login (dev only)
- */
 export function SignIn() {
-  const {
-    signIn: signInOAuth,
-    signInLocal,
-    signUp,
-    mockLogin,
-    passkeyLogin,
-    isLoading,
-    error,
-  } = useAuth();
+  const { signIn, signUp, isLoading, error } = useAuth();
+  const [tab, setTab] = useState<AuthTab>("password");
 
-  const [tab, setTab] = useState<AuthTab>("oauth");
-
-  // OAuth state
-  const [githubId, setGithubId] = useState("");
-  const [githubSecret, setGithubSecret] = useState("");
-  const [googleId, setGoogleId] = useState("");
-  const [googleSecret, setGoogleSecret] = useState("");
-  const [showOAuthConfig, setShowOAuthConfig] = useState(false);
-
-  // Password state
-  const [username, setUsername] = useState("");
+  // Password sign-in
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [totpCode, setTotpCode] = useState("");
 
-  // Sign up state
-  const [signUpUsername, setSignUpUsername] = useState("");
-  const [signUpEmail, setSignUpEmail] = useState("");
-  const [signUpPassword, setSignUpPassword] = useState("");
-  const [signUpConfirm, setSignUpConfirm] = useState("");
+  // Sign up
+  const [regName, setRegName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [regConfirm, setRegConfirm] = useState("");
 
-  // Passkey state
-  const [passkeyLoading, setPasskeyLoading] = useState(false);
+  // OAuth loading
+  const [socialLoading, setSocialLoading] = useState<string | null>(null);
 
-  const handleOAuth = async (provider: AuthProvider) => {
-    const clientId = provider === "github" ? githubId : googleId;
-    const clientSecret = provider === "github" ? githubSecret : googleSecret;
-    if (!clientId || !clientSecret) {
-      setShowOAuthConfig(true);
-      return;
-    }
-    await signInOAuth(provider, clientId, clientSecret);
-  };
-
-  const handlePasswordLogin = async () => {
-    if (!username || !password) return;
-    await signInLocal(username, password, totpCode || undefined);
+  const handleEmailSignIn = async () => {
+    if (!email || !password) return;
+    await signIn.email({
+      email,
+      password,
+      callbackURL: "/",
+    });
   };
 
   const handleSignUp = async () => {
-    if (!signUpUsername || !signUpPassword) return;
-    if (signUpPassword !== signUpConfirm) return;
-    await signUp(signUpUsername, signUpEmail || null, signUpPassword);
+    if (!regEmail || !regPassword || regPassword !== regConfirm) return;
+    await signUp.email({
+      name: regName,
+      email: regEmail,
+      password: regPassword,
+      callbackURL: "/",
+    });
   };
 
-  const handlePasskeyLogin = async () => {
-    setPasskeyLoading(true);
+  const handleSocialSignIn = async (provider: "github" | "google") => {
+    setSocialLoading(provider);
     try {
-      await passkeyLogin();
+      await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
     } finally {
-      setPasskeyLoading(false);
+      setSocialLoading(null);
     }
   };
 
@@ -86,6 +63,32 @@ export function SignIn() {
       <div style={styles.card}>
         <h1 style={styles.title}>Project Ara</h1>
         <p style={styles.subtitle}>Sign in to continue</p>
+
+        {error && <p style={styles.errorBanner}>{error}</p>}
+
+        {/* Social sign-in buttons */}
+        <div style={styles.socialButtons}>
+          <button
+            style={styles.socialButton}
+            onClick={() => handleSocialSignIn("github")}
+            disabled={isLoading || socialLoading !== null}
+          >
+            {socialLoading === "github" ? "Connecting…" : "GitHub"}
+          </button>
+          <button
+            style={styles.socialButton}
+            onClick={() => handleSocialSignIn("google")}
+            disabled={isLoading || socialLoading !== null}
+          >
+            {socialLoading === "google" ? "Connecting…" : "Google"}
+          </button>
+        </div>
+
+        <div style={styles.dividerContainer}>
+          <div style={styles.dividerLine} />
+          <span style={styles.dividerText}>or</span>
+          <div style={styles.dividerLine} />
+        </div>
 
         {/* Tabs */}
         <div style={styles.tabs}>
@@ -103,72 +106,15 @@ export function SignIn() {
           ))}
         </div>
 
-        {error && <p style={styles.error}>{error}</p>}
-
-        {/* ── OAuth tab ──────────────────────────────── */}
-        {tab === "oauth" && (
-          <div style={styles.tabContent}>
-            <button
-              style={styles.button}
-              onClick={() => handleOAuth("github")}
-              disabled={isLoading}
-            >
-              Sign in with GitHub
-            </button>
-            <button
-              style={styles.button}
-              onClick={() => handleOAuth("google")}
-              disabled={isLoading}
-            >
-              Sign in with Google
-            </button>
-            <button
-              style={styles.configToggle}
-              onClick={() => setShowOAuthConfig(!showOAuthConfig)}
-            >
-              {showOAuthConfig ? "Hide" : "Configure"} OAuth credentials
-            </button>
-            {showOAuthConfig && (
-              <div style={styles.configSection}>
-                <OAuthField
-                  label="GitHub Client ID"
-                  value={githubId}
-                  onChange={setGithubId}
-                  placeholder="Iv1.xxxx"
-                />
-                <OAuthField
-                  label="GitHub Client Secret"
-                  value={githubSecret}
-                  onChange={setGithubSecret}
-                  placeholder="••••••••"
-                  secret
-                />
-                <OAuthField
-                  label="Google Client ID"
-                  value={googleId}
-                  onChange={setGoogleId}
-                  placeholder="xxxx.apps.googleusercontent.com"
-                />
-                <OAuthField
-                  label="Google Client Secret"
-                  value={googleSecret}
-                  onChange={setGoogleSecret}
-                  placeholder="••••••••"
-                  secret
-                />
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── Password tab ───────────────────────────── */}
+        {/* Password sign-in */}
         {tab === "password" && (
           <div style={styles.tabContent}>
             <Input
-              label="Username"
-              value={username}
-              onChange={setUsername}
-              autoComplete="username"
+              label="Email"
+              type="email"
+              value={email}
+              onChange={setEmail}
+              autoComplete="email"
             />
             <Input
               label="Password"
@@ -185,72 +131,53 @@ export function SignIn() {
               autoComplete="one-time-code"
             />
             <button
-              style={{ ...styles.button, ...styles.primaryButton }}
-              onClick={handlePasswordLogin}
-              disabled={isLoading || !username || !password}
+              style={{ ...styles.primaryButton }}
+              onClick={handleEmailSignIn}
+              disabled={isLoading || !email || !password}
             >
               Sign In
             </button>
           </div>
         )}
 
-        {/* ── Passkey tab ────────────────────────────── */}
-        {tab === "passkey" && (
-          <div style={styles.tabContent}>
-            <p style={styles.hint}>
-              Use your device's built-in authenticator (Touch ID, Windows Hello,
-              etc.) to sign in.
-            </p>
-            <button
-              style={{ ...styles.button, ...styles.primaryButton }}
-              onClick={handlePasskeyLogin}
-              disabled={passkeyLoading}
-            >
-              {passkeyLoading
-                ? "Waiting for authenticator…"
-                : "Sign in with Passkey"}
-            </button>
-          </div>
-        )}
-
-        {/* ── Sign Up tab ────────────────────────────── */}
+        {/* Sign Up */}
         {tab === "signup" && (
           <div style={styles.tabContent}>
             <Input
-              label="Username"
-              value={signUpUsername}
-              onChange={setSignUpUsername}
-              autoComplete="username"
+              label="Name"
+              value={regName}
+              onChange={setRegName}
+              autoComplete="name"
             />
             <Input
-              label="Email (optional)"
+              label="Email"
               type="email"
-              value={signUpEmail}
-              onChange={setSignUpEmail}
+              value={regEmail}
+              onChange={setRegEmail}
               autoComplete="email"
             />
             <Input
               label="Password"
               type="password"
-              value={signUpPassword}
-              onChange={setSignUpPassword}
+              value={regPassword}
+              onChange={setRegPassword}
               autoComplete="new-password"
             />
             <Input
               label="Confirm Password"
               type="password"
-              value={signUpConfirm}
-              onChange={setSignUpConfirm}
+              value={regConfirm}
+              onChange={setRegConfirm}
               autoComplete="new-password"
             />
             <button
-              style={{ ...styles.button, ...styles.primaryButton }}
+              style={{ ...styles.primaryButton }}
               onClick={handleSignUp}
               disabled={
                 isLoading ||
-                !signUpUsername ||
-                !signUpPassword ||
-                signUpPassword !== signUpConfirm
+                !regEmail ||
+                !regPassword ||
+                regPassword !== regConfirm
               }
             >
               Create Account
@@ -258,17 +185,24 @@ export function SignIn() {
           </div>
         )}
 
-        {/* ── Mock login (dev only) ──────────────────── */}
-        <div style={styles.mockSection}>
-          <div style={styles.divider} />
-          <button
-            style={styles.mockButton}
-            onClick={mockLogin}
-            disabled={isLoading}
-          >
-            Mock Login (dev)
-          </button>
-        </div>
+        {/* Passkey */}
+        {tab === "passkey" && (
+          <div style={styles.tabContent}>
+            <p style={styles.hint}>
+              Use your device's built-in authenticator (Touch ID, Windows Hello)
+              to sign in or register a passkey.
+            </p>
+            <button
+              style={{ ...styles.primaryButton }}
+              onClick={() =>
+                signIn.social({ provider: "passkey", callbackURL: "/" })
+              }
+              disabled={isLoading}
+            >
+              Sign in with Passkey
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -293,41 +227,14 @@ function Input({
 }) {
   return (
     <div style={styles.field}>
-      <label style={styles.label}>{label}</label>
+      <label style={styles.fieldLabel}>{label}</label>
       <input
-        style={styles.input}
+        style={styles.fieldInput}
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
-      />
-    </div>
-  );
-}
-
-function OAuthField({
-  label,
-  value,
-  onChange,
-  placeholder,
-  secret,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  secret?: boolean;
-}) {
-  return (
-    <div style={styles.field}>
-      <label style={styles.label}>{label}</label>
-      <input
-        style={styles.input}
-        type={secret ? "password" : "text"}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
       />
     </div>
   );
@@ -363,6 +270,40 @@ const styles: Record<string, React.CSSProperties> = {
     color: "var(--color-text-secondary)",
     fontSize: "var(--text-base)",
   },
+  socialButtons: {
+    display: "flex",
+    gap: "var(--space-3)",
+    width: "100%",
+  },
+  socialButton: {
+    flex: 1,
+    padding: "var(--space-3) var(--space-4)",
+    backgroundColor: "var(--color-bg)",
+    color: "var(--color-text)",
+    border: "1px solid var(--color-border)",
+    borderRadius: "var(--radius-md)",
+    fontSize: "var(--text-sm)",
+    fontWeight: "var(--font-medium)",
+    cursor: "pointer",
+    transition: "background-color var(--transition-fast)",
+  },
+  dividerContainer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "var(--space-3)",
+    width: "100%",
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "var(--color-border-light)",
+  },
+  dividerText: {
+    fontSize: "var(--text-xs)",
+    color: "var(--color-text-tertiary)",
+    textTransform: "uppercase",
+    letterSpacing: "var(--tracking-wide)",
+  },
   tabs: {
     display: "flex",
     gap: 0,
@@ -397,14 +338,14 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: "column",
     gap: "var(--space-1)",
   },
-  label: {
+  fieldLabel: {
     fontSize: "var(--text-xs)",
     fontWeight: "var(--font-medium)",
     color: "var(--color-text-secondary)",
     textTransform: "uppercase",
     letterSpacing: "var(--tracking-wide)",
   },
-  input: {
+  fieldInput: {
     padding: "var(--space-2) var(--space-3)",
     border: "1px solid var(--color-border)",
     borderRadius: "var(--radius-sm)",
@@ -413,39 +354,17 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "var(--text-sm)",
     fontFamily: "var(--font-mono)",
   },
-  button: {
+  primaryButton: {
     width: "100%",
     padding: "var(--space-3) var(--space-4)",
-    backgroundColor: "var(--color-bg)",
-    color: "var(--color-text)",
-    border: "1px solid var(--color-border)",
+    backgroundColor: "var(--color-accent)",
+    color: "var(--color-text-inverse)",
+    border: "none",
     borderRadius: "var(--radius-md)",
     fontSize: "var(--text-base)",
     fontWeight: "var(--font-medium)",
     cursor: "pointer",
-    transition: "background-color var(--transition-fast)",
-  },
-  primaryButton: {
-    backgroundColor: "var(--color-accent)",
-    color: "var(--color-text-inverse)",
-    border: "none",
-  },
-  configToggle: {
-    background: "none",
-    border: "none",
-    color: "var(--color-text-tertiary)",
-    fontSize: "var(--text-sm)",
-    textDecoration: "underline",
-    cursor: "pointer",
-  },
-  configSection: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "var(--space-3)",
-    width: "100%",
-    padding: "var(--space-4)",
-    backgroundColor: "var(--color-bg-secondary)",
-    borderRadius: "var(--radius-md)",
+    transition: "opacity var(--transition-fast)",
   },
   hint: {
     color: "var(--color-text-secondary)",
@@ -453,26 +372,7 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "center",
     lineHeight: "var(--leading-relaxed)",
   },
-  divider: {
-    width: "100%",
-    height: 1,
-    backgroundColor: "var(--color-border-light)",
-    margin: "var(--space-2) 0",
-  },
-  mockSection: {
-    width: "100%",
-  },
-  mockButton: {
-    width: "100%",
-    padding: "var(--space-2) var(--space-3)",
-    backgroundColor: "transparent",
-    color: "var(--color-text-tertiary)",
-    border: "1px dashed var(--color-border)",
-    borderRadius: "var(--radius-sm)",
-    fontSize: "var(--text-xs)",
-    cursor: "pointer",
-  },
-  error: {
+  errorBanner: {
     color: "var(--color-error)",
     fontSize: "var(--text-sm)",
     padding: "var(--space-2) var(--space-3)",
