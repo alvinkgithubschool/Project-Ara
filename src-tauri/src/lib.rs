@@ -16,7 +16,6 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_store::Builder::default().build())
         .manage(AppDataState {
             app_data_dir: Mutex::new(std::env::current_dir().unwrap_or_default()),
         })
