@@ -10,7 +10,7 @@ const TABS: { key: AuthTab; label: string }[] = [
 ];
 
 export function SignIn() {
-  const { signIn, signUp, isLoading, error } = useAuth();
+  const { signIn, signUp, isLoading, error, skipAuth } = useAuth();
   const [tab, setTab] = useState<AuthTab>("password");
 
   // Password sign-in
@@ -203,6 +203,17 @@ export function SignIn() {
             </button>
           </div>
         )}
+
+        {/* Skip auth */}
+        <div style={styles.skipSection}>
+          <div style={styles.dividerLine} />
+          <button style={styles.skipButton} onClick={skipAuth}>
+            Continue without account
+          </button>
+          <p style={styles.skipHint}>
+            Skips sign-in. Your session won't be saved.
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -380,5 +391,26 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: "var(--radius-sm)",
     width: "100%",
     textAlign: "center",
+  },
+  skipSection: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "var(--space-2)",
+  },
+  skipButton: {
+    width: "100%",
+    padding: "var(--space-2) var(--space-3)",
+    backgroundColor: "transparent",
+    color: "var(--color-text-tertiary)",
+    border: "1px dashed var(--color-border)",
+    borderRadius: "var(--radius-sm)",
+    fontSize: "var(--text-sm)",
+    cursor: "pointer",
+  },
+  skipHint: {
+    fontSize: "var(--text-xs)",
+    color: "var(--color-text-tertiary)",
   },
 };
