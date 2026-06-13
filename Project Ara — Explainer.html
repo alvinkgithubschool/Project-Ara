@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Ara — Explainer</title>
+<script src="./Project Ara — Explainer_files/mermaid.min.js"></script>
+<style>
+  /* ── Reset & Base ─────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0a0c10;
+    --surface:  #10141c;
+    --border:   #1a2030;
+    --text:     #c0c8d8;
+    --dim:      #5a6478;
+    --cyan:     #00d4ff;
+    --green:    #259C52;
+    --blue:     #227EA4;
+    --purple:   #472F78;
+    --pink:     #ff6ec4;
+    --mono:     'Space Mono', 'Courier New', monospace;
+    --body:     'Inter', system-ui, sans-serif;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+  }
+
+  /* ── Layout ───────────────────────────────────────────── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  section {
+    padding: 80px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Typography ───────────────────────────────────────── */
+  h1, h2, h3, h4 { font-family: var(--mono); font-weight: 700; letter-spacing: 0.02em; }
+  h1 { font-size: clamp(1.8rem, 4vw, 3rem); color: #fff; margin-bottom: 8px; }
+  h2 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--cyan); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.1em; }
+  h3 { font-size: 1rem; color: #fff; margin-bottom: 12px; }
+  h4 { font-size: 0.85rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px; }
+  p { margin-bottom: 16px; color: var(--text); }
+  a { color: var(--cyan); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .subtitle { color: var(--dim); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.08em; }
+
+  /* ── ASCII Art ─────────────────────────────────────────── */
+  pre.ascii {
+    font-family: var(--mono);
+    font-size: clamp(0.45rem, 1vw, 0.65rem);
+    line-height: 1.2;
+    color: var(--cyan);
+    opacity: 0.7;
+    overflow-x: auto;
+    white-space: pre;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .ascii-box {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: 4px;
+    background: var(--surface);
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.5;
+    margin: 20px 0;
+  }
+
+  /* ── Dividers ──────────────────────────────────────────── */
+  .divider {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--border);
+    text-align: center;
+    margin: 40px 0;
+    letter-spacing: 0.3em;
+    user-select: none;
+  }
+
+  /* ── Cards / Glass ─────────────────────────────────────── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  /* ── Tables ────────────────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.85rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    background: var(--surface);
+  }
+  td { color: var(--text); }
+  tr:hover td { background: rgba(0,212,255,0.02); }
+
+  /* ── Tier badges ───────────────────────────────────────── */
+  .tier { display: inline-block; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; }
+  .tier-0 { background: rgba(90,100,120,0.2); color: var(--dim); border: 1px solid rgba(90,100,120,0.3); }
+  .tier-1 { background: rgba(0,212,255,0.08); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+  .tier-2 { background: rgba(37,156,82,0.1); color: var(--green); border: 1px solid rgba(37,156,82,0.25); }
+
+  /* ── Section accent badges ─────────────────────────────── */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .badge-blue { background: rgba(34,126,164,0.12); color: var(--blue); border: 1px solid rgba(34,126,164,0.3); }
+  .badge-purple { background: rgba(71,47,120,0.12); color: #a78bfa; border: 1px solid rgba(71,47,120,0.3); }
+  .badge-green { background: rgba(37,156,82,0.1); color: var(--green); border: 1px solid rgba(37,156,82,0.25); }
+
+  /* ── Bar charts (CSS) ──────────────────────────────────── */
+  .bar-chart { margin: 24px 0; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .bar-label {
+    width: 130px;
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--dim);
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 18px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .bar-value {
+    width: 30px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--dim);
+  }
+
+  /* ── Mermaid ───────────────────────────────────────────── */
+  .mermaid {
+    margin: 24px 0;
+    text-align: center;
+  }
+  .mermaid svg { max-width: 100%; }
+
+  /* ── Image collage (dithered) ──────────────────────────── */
+  .collage {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin: 24px 0;
+  }
+  .collage img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    filter: grayscale(0.6) contrast(1.3) brightness(0.7);
+    transition: filter 0.4s ease;
+  }
+  .collage img:hover {
+    filter: grayscale(0) contrast(1.1) brightness(0.9);
+  }
+
+  /* ── Stat row ──────────────────────────────────────────── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat {
+    text-align: center;
+    padding: 20px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cyan);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+  }
+
+  /* ── TOC ────────────────────────────────────────────────── */
+  .toc { list-style: none; padding: 0; }
+  .toc li { margin-bottom: 6px; }
+  .toc a {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--dim);
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--cyan); text-decoration: none; }
+  .toc .num { color: var(--cyan); margin-right: 8px; opacity: 0.5; }
+
+  /* ── Fade-in animation ─────────────────────────────────── */
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Footer ────────────────────────────────────────────── */
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .bar-label { width: 80px; font-size: 0.6rem; }
+    .collage { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════ -->
+<section style="padding-top: 120px; border: none;">
+<pre class="ascii">    ╔═══════════════════════════════════════════════════════════╗
+    ║                                                           ║
+    ║      █████╗ ██████╗  █████╗                               ║
+    ║     ██╔══██╗██╔══██╗██╔══██╗                              ║
+    ║     ███████║██████╔╝███████║                               ║
+    ║     ██╔══██║██╔══██╗██╔══██║                               ║
+    ║     ██║  ██║██║  ██║██║  ██║                               ║
+    ║     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝                               ║
+    ║                                                           ║
+    ║     Multi-Domain Creative Project Control Room            ║
+    ║                                                           ║
+    ╚═══════════════════════════════════════════════════════════╝
+</pre>
+  <h1>Project Ara</h1>
+  <p class="subtitle">MVP 2.0 — MULTI-DOMAIN TECHNICAL BLUEPRINT</p>
+  <p style="max-width: 640px; margin-top: 20px; color: var(--dim);">
+    A unified project graph and control room for game engines, DAWs, creative coding,
+    collaboration tools, and cloud storage. One map for your entire creative body of work.
+  </p>
+
+  <div class="stats" style="margin-top: 40px;">
+    <div class="stat"><div class="stat-value">30+</div><div class="stat-label">Tools Supported</div></div>
+    <div class="stat"><div class="stat-value">3</div><div class="stat-label">Integration Tiers</div></div>
+    <div class="stat"><div class="stat-value">5</div><div class="stat-label">Relationship Types</div></div>
+    <div class="stat"><div class="stat-value">3</div><div class="stat-label">MVP Milestones</div></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+     ════════════════════════════════════════════════════════════ -->
+<section id="toc">
+  <h2>// Table of Contents</h2>
+  <ul class="toc">
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#vision"><span class="num">01</span> Vision &amp; Scope</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#frameworks"><span class="num">01b</span> Frameworks &amp; Stack</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#landscape"><span class="num">02</span> Tool Landscape</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#tiers"><span class="num">03</span> Integration Tiers</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#scanning"><span class="num">04</span> Scanning &amp; Relationship Model</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#categories"><span class="num">05</span> Category Blueprints</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#storage"><span class="num">06</span> Storage Architecture</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#agents"><span class="num">07</span> Agentic Workflows</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#milestones"><span class="num">08</span> MVP Milestones</a></li>
+    <li><a href="file:///Users/alvin/onolonooprojects/Zamsfrontpage/project-ara-explainer.html#inspiration"><span class="num">09</span> UI/UX Inspiration</a></li>
+  </ul>
+</section>
+
+<div class="divider">· · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     01 — VISION & SCOPE
+     ════════════════════════════════════════════════════════════ -->
+<section id="vision" class="fade-in visible">
+  <h4>Section 01</h4>
+  <h2>// Vision &amp; Scope</h2>
+
+  <p>
+    Ara is the <strong>"control room"</strong> for complex creative projects. It builds a unified
+    project graph across game engines, DAWs, creative-coding environments, collaboration tools,
+    and cloud storage — without forcing teams to abandon their existing tools.
+  </p>
+
+  <div class="ascii-box">┌─────────────────────────────────────────────────────────────────┐
+│                         PROJECT ARA                             │
+│                                                                 │
+│   ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
+│   │  GAME    │  │   DAW    │  │ CREATIVE │  │  COLLAB  │      │
+│   │ ENGINES  │──│  AUDIO   │──│  CODING  │──│    PM    │      │
+│   └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘      │
+│        │             │             │             │              │
+│        └──────┬──────┴──────┬──────┴──────┬──────┘              │
+│               │             │             │                     │
+│          ┌────▼─────────────▼─────────────▼────┐                │
+│          │       UNIFIED PROJECT GRAPH          │                │
+│          │    (SQLite + SpacetimeDB + Git)      │                │
+│          └────────────────┬────────────────────┘                │
+│                           │                                     │
+│                    ┌──────▼──────┐                               │
+│                    │   AGENTS    │                               │
+│                    │ Doc · Plan  │                               │
+│                    │ Refactor    │                               │
+│                    └─────────────┘                               │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+  <h3>Priority Deep Integrations (MVP Cycle 1)</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4 style="color: var(--cyan);">Unity / Godot</h4>
+      <p style="font-size: 0.85rem;">Scene graphs, asset relationships, script dependency parsing. Unity as anchor (25+ platforms), Godot as open-source counterpart.</p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">TouchDesigner</h4>
+      <p style="font-size: 0.85rem;">Network extraction, COMPs, panels, and connections. Ara's canvas UX borrows from TD's panel model.</p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">Notion + Git</h4>
+      <p style="font-size: 0.85rem;">Docs, tasks, and wikis as graph nodes linked to implementation artifacts. Git for versioned artifact history.</p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">SpacetimeDB</h4>
+      <p style="font-size: 0.85rem;">Real-time collaborative graph state. Self-hostable. Incremental replication and client-side cache.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     01b — FRAMEWORKS & CROSS-PLATFORM ARCHITECTURE
+     ════════════════════════════════════════════════════════════ -->
+<section id="frameworks" class="fade-in visible">
+  <h4>Section 01b</h4>
+  <h2>// Frameworks &amp; Cross-Platform Stack</h2>
+
+  <p>
+    Ara is built as a <strong>cross-platform desktop application</strong> using modern frameworks that prioritize
+    performance, security, and native integration. The stack balances web-technology flexibility with
+    systems-level performance for file scanning and graph operations.
+  </p>
+
+  <div class="ascii-box">┌─────────────────────────────────────────────────────────────────┐
+│                    ARA TECHNICAL STACK                          │
+│                                                                 │
+│   ┌─────────────────────────────────────────────────────────┐  │
+│   │                    FRONTEND LAYER                       │  │
+│   │  React 18 + TypeScript · Vite · Tailwind CSS            │  │
+│   │  Motion (Framer) · Mermaid · Canvas API               │  │
+│   └─────────────────────────┬───────────────────────────────┘  │
+│                             │ WASM / WebView Bridge            │
+│   ┌─────────────────────────▼───────────────────────────────┐  │
+│   │                   TAURI RUNTIME                         │  │
+│   │     Rust-powered · WebView2 (Win) · WKWebView (Mac)    │  │
+│   │     Multi-process sandbox · Native OS APIs             │  │
+│   └─────────────────────────┬───────────────────────────────┘  │
+│                             │ Commands / Events                │
+│   ┌─────────────────────────▼───────────────────────────────┐  │
+│   │                    BACKEND CORE                         │  │
+│   │  Rust · SQLite (rusqlite) · Tree-sitter · notify/rs   │  │
+│   │  Graph algorithms · File system watchers · Parsers      │  │
+│   └─────────────────────────┬───────────────────────────────┘  │
+│                             │ Network (optional)               │
+│   ┌─────────────────────────▼───────────────────────────────┐  │
+│   │              COLLABORATION LAYER (optional)             │  │
+│   │  SpacetimeDB Client · Git2-rs · MCP protocol          │  │
+│   └─────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+  <h3>Why Tauri?</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4 style="color: var(--cyan);">Performance</h4>
+      <p style="font-size: 0.85rem;">
+        ~600KB final binary vs 100MB+ Electron bundles. Rust backend uses &lt;5MB RAM at idle vs 100MB+
+        typical Electron footprint. Native WebView rendering, not bundled Chromium.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">Security Model</h4>
+      <p style="font-size: 0.85rem;">
+        Multi-process sandbox architecture. Frontend runs isolated in WebView.
+        Explicit capability-based API access (filesystem, network, shell).
+        No Node.js in renderer process.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">Native Integration</h4>
+      <p style="font-size: 0.85rem;">
+        Direct OS API access via Rust: native file dialogs, system notifications,
+        deep links, tray icons, global shortcuts. No electron-builder workarounds.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="color: var(--cyan);">Cross-Platform</h4>
+      <p style="font-size: 0.85rem;">
+        Single codebase targets Windows (WebView2), macOS (WKWebView), Linux (WebKitGTK).
+        Mobile roadmap: Tauri v2 supports iOS/Android via native WebViews.
+      </p>
+    </div>
+  </div>
+
+  <h3>Frontend Architecture</h3>
+  <table>
+    <thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>UI Framework</strong></td>
+        <td>React 18 + TypeScript</td>
+        <td>Component architecture, type safety, concurrent features</td>
+      </tr>
+      <tr>
+        <td><strong>Build Tool</strong></td>
+        <td>Vite</td>
+        <td>Fast HMR, optimized production builds, ES modules native</td>
+      </tr>
+      <tr>
+        <td><strong>Styling</strong></td>
+        <td>Tailwind CSS v4</td>
+        <td>Utility-first CSS, design system tokens, dark mode native</td>
+      </tr>
+      <tr>
+        <td><strong>Animation</strong></td>
+        <td>Motion (Framer successor)</td>
+        <td>Declarative animations, layout transitions, AnimatePresence</td>
+      </tr>
+      <tr>
+        <td><strong>Visualization</strong></td>
+        <td>Mermaid + Canvas API</td>
+        <td>Architecture diagrams (Mermaid), custom node graph (Canvas)</td>
+      </tr>
+      <tr>
+        <td><strong>Primitives</strong></td>
+        <td>Radix UI + shadcn/ui</td>
+        <td>Accessible headless components, customizable patterns</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Backend Architecture (Rust)</h3>
+  <table>
+    <thead><tr><th>Module</th><th>Crate / Library</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Graph Database</strong></td>
+        <td>rusqlite + sqlite</td>
+        <td>Local project graph storage, node/edge queries</td>
+      </tr>
+      <tr>
+        <td><strong>File Watching</strong></td>
+        <td>notify / hotwatch</td>
+        <td>Cross-platform filesystem events for live graph updates</td>
+      </tr>
+      <tr>
+        <td><strong>Parsing</strong></td>
+        <td>tree-sitter + grammars</td>
+        <td>Script dependency extraction (C#, GDScript, JS, GLSL)</td>
+      </tr>
+      <tr>
+        <td><strong>Serialization</strong></td>
+        <td>serde + toml/json</td>
+        <td>Config files, project metadata, graph snapshots</td>
+      </tr>
+      <tr>
+        <td><strong>Git Integration</strong></td>
+        <td>git2-rs</td>
+        <td>Native Git operations without shelling out</td>
+      </tr>
+      <tr>
+        <td><strong>Networking</strong></td>
+        <td>reqwest + tokio</td>
+        <td>SpacetimeDB client, API connectors, MCP protocol</td>
+      </tr>
+      <tr>
+        <td><strong>Inter-process</strong></td>
+        <td>Tauri Commands + Events</td>
+        <td>Type-safe bridge between Rust backend and TS frontend</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Platform Targets</h3>
+  <div class="card-grid">
+    <div class="card" style="border-color: rgba(0,120,212,0.3);">
+      <h4 style="color: #0078d4;">Windows 10/11</h4>
+      <p style="font-size: 0.8rem;">
+        WebView2 runtime ( evergreen, auto-updating ). Windows 11 snap layouts,
+        dark mode system integration, native file dialogs via IFileDialog.
+      </p>
+    </div>
+    <div class="card" style="border-color: rgba(255,255,255,0.1);">
+      <h4 style="color: #fff;">macOS 12+</h4>
+      <p style="font-size: 0.8rem;">
+        WKWebView with native Monterey/Ventura features. Touch Bar support,
+        unified toolbar, sandbox-compliant file access, Apple Silicon native.
+      </p>
+    </div>
+    <div class="card" style="border-color: rgba(255,165,0,0.3);">
+      <h4 style="color: #ffa500;">Linux</h4>
+      <p style="font-size: 0.8rem;">
+        WebKitGTK for GNOME/KDE/Sway. AppImage + .deb + Flatpak distribution.
+        XDG portal integration for file dialogs and sandboxing.
+      </p>
+    </div>
+    <div class="card" style="border-color: rgba(120,115,245,0.3);">
+      <h4 style="color: #7873f5;">Mobile (Future)</h4>
+      <p style="font-size: 0.8rem;">
+        Tauri v2 roadmap: iOS (WKWebView) and Android (WebView). Same Rust core,
+        React Native-style bridge for native modules where needed.
+      </p>
+    </div>
+  </div>
+
+  <h3>Performance Budgets</h3>
+  <div class="bar-chart">
+    <div class="bar-row"><span class="bar-label">Binary Size</span><div class="bar-track"><div class="bar-fill" style="width:6%; background: var(--green);"></div></div><span class="bar-value">~3MB</span></div>
+    <div class="bar-row"><span class="bar-label">RAM Idle</span><div class="bar-track"><div class="bar-fill" style="width:5%; background: var(--cyan);"></div></div><span class="bar-value">~15MB</span></div>
+    <div class="bar-row"><span class="bar-label">Launch Time</span><div class="bar-track"><div class="bar-fill" style="width:8%; background: var(--blue);"></div></div><span class="bar-value">&lt;300ms</span></div>
+    <div class="bar-row"><span class="bar-label">Cold Scan (10k files)</span><div class="bar-track"><div class="bar-fill" style="width:25%; background: var(--purple);"></div></div><span class="bar-value">&lt;2s</span></div>
+  </div>
+  <p style="font-size: 0.75rem; color: var(--dim); margin-top: 8px;">
+    Compared to Electron baseline: ~150MB binary, 100-200MB RAM idle, 2-3s launch.
+    Tauri's Rust core and native WebViews enable an order-of-magnitude improvement.
+  </p>
+</section>
+
+<div class="divider">· · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     02 — TOOL LANDSCAPE
+     ════════════════════════════════════════════════════════════ -->
+<section id="landscape" class="fade-in visible">
+  <h4>Section 02</h4>
+  <h2>// Tool Landscape</h2>
+
+  <table>
+    <thead>
+      <tr><th>Category</th><th>Tools</th><th>MVP Tier</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Game Engines</strong></td>
+        <td>Unity, Unreal, Godot</td>
+        <td><span class="tier tier-1">Tier A</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>GameMaker, Phaser, Three.js</td>
+        <td><span class="tier tier-0">Tier B</span></td>
+      </tr>
+      <tr>
+        <td><strong>DAWs</strong></td>
+        <td>Ableton, FL Studio, Logic, Pro Tools, Reaper, Studio One, Cubase</td>
+        <td><span class="tier tier-0">Tier 0</span></td>
+      </tr>
+      <tr>
+        <td><strong>Creative Coding</strong></td>
+        <td>TouchDesigner</td>
+        <td><span class="tier tier-1">Tier 1</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Processing, p5.js, oF, Three.js, Hydra, vvvv, Cables.gl</td>
+        <td><span class="tier tier-0">Tier 0–1</span></td>
+      </tr>
+      <tr>
+        <td><strong>Collab / PM</strong></td>
+        <td>Notion</td>
+        <td><span class="tier tier-2">Tier 2</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Google Workspace, Jira, Trello, Asana, Figma, Miro, Slack/Discord</td>
+        <td><span class="tier tier-0">Tier 0</span></td>
+      </tr>
+      <tr>
+        <td><strong>Storage</strong></td>
+        <td>Google Drive, OneDrive, Dropbox, iCloud, Proton Drive, Sync.com</td>
+        <td><span class="tier tier-0">Tier 0</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Tool Coverage by Category</h3>
+  <div class="bar-chart">
+    <div class="bar-row"><span class="bar-label">Game Engines</span><div class="bar-track"><div class="bar-fill" style="width:55%; background: var(--cyan);"></div></div><span class="bar-value">6</span></div>
+    <div class="bar-row"><span class="bar-label">DAWs</span><div class="bar-track"><div class="bar-fill" style="width:65%; background: var(--blue);"></div></div><span class="bar-value">7</span></div>
+    <div class="bar-row"><span class="bar-label">Creative Code</span><div class="bar-track"><div class="bar-fill" style="width:75%; background: var(--green);"></div></div><span class="bar-value">8</span></div>
+    <div class="bar-row"><span class="bar-label">Collab / PM</span><div class="bar-track"><div class="bar-fill" style="width:90%; background: var(--purple);"></div></div><span class="bar-value">10</span></div>
+    <div class="bar-row"><span class="bar-label">Storage</span><div class="bar-track"><div class="bar-fill" style="width:55%; background: var(--pink);"></div></div><span class="bar-value">6</span></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     03 — INTEGRATION TIERS
+     ════════════════════════════════════════════════════════════ -->
+<section id="tiers" class="fade-in visible">
+  <h4>Section 03</h4>
+  <h2>// Integration Tiers</h2>
+
+  <div class="mermaid" data-processed="true"><svg id="mermaid-1775807451538" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 744.0078125px;" viewBox="0 0 744.0078125 82" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1775807451538{font-family:'Space Mono',monospace;font-size:12px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1775807451538 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1775807451538 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1775807451538 .error-icon{fill:#a44141;}#mermaid-1775807451538 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-1775807451538 .edge-thickness-normal{stroke-width:1px;}#mermaid-1775807451538 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1775807451538 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1775807451538 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1775807451538 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1775807451538 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1775807451538 .marker{fill:#2a3444;stroke:#2a3444;}#mermaid-1775807451538 .marker.cross{stroke:#2a3444;}#mermaid-1775807451538 svg{font-family:'Space Mono',monospace;font-size:12px;}#mermaid-1775807451538 p{margin:0;}#mermaid-1775807451538 .label{font-family:'Space Mono',monospace;color:#ccc;}#mermaid-1775807451538 .cluster-label text{fill:#F9FFFE;}#mermaid-1775807451538 .cluster-label span{color:#F9FFFE;}#mermaid-1775807451538 .cluster-label span p{background-color:transparent;}#mermaid-1775807451538 .label text,#mermaid-1775807451538 span{fill:#ccc;color:#ccc;}#mermaid-1775807451538 .node rect,#mermaid-1775807451538 .node circle,#mermaid-1775807451538 .node ellipse,#mermaid-1775807451538 .node polygon,#mermaid-1775807451538 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-1775807451538 .rough-node .label text,#mermaid-1775807451538 .node .label text,#mermaid-1775807451538 .image-shape .label,#mermaid-1775807451538 .icon-shape .label{text-anchor:middle;}#mermaid-1775807451538 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1775807451538 .rough-node .label,#mermaid-1775807451538 .node .label,#mermaid-1775807451538 .image-shape .label,#mermaid-1775807451538 .icon-shape .label{text-align:center;}#mermaid-1775807451538 .node.clickable{cursor:pointer;}#mermaid-1775807451538 .root .anchor path{fill:#2a3444!important;stroke-width:0;stroke:#2a3444;}#mermaid-1775807451538 .arrowheadPath{fill:lightgrey;}#mermaid-1775807451538 .edgePath .path{stroke:#2a3444;stroke-width:1px;}#mermaid-1775807451538 .flowchart-link{stroke:#2a3444;fill:none;}#mermaid-1775807451538 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451538 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451538 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451538 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-1775807451538 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-1775807451538 .cluster text{fill:#F9FFFE;}#mermaid-1775807451538 .cluster span{color:#F9FFFE;}#mermaid-1775807451538 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:'Space Mono',monospace;font-size:12px;background:#10141c;border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1775807451538 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-1775807451538 rect.text{fill:none;stroke-width:0;}#mermaid-1775807451538 .icon-shape,#mermaid-1775807451538 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451538 .icon-shape p,#mermaid-1775807451538 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-1775807451538 .icon-shape .label rect,#mermaid-1775807451538 .image-shape .label rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451538 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-1775807451538 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-1775807451538 .node .neo-node{stroke:#ccc;}#mermaid-1775807451538 [data-look="neo"].node rect,#mermaid-1775807451538 [data-look="neo"].cluster rect,#mermaid-1775807451538 [data-look="neo"].node polygon{stroke:url(#mermaid-1775807451538-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451538 [data-look="neo"].node path{stroke:url(#mermaid-1775807451538-gradient);stroke-width:1px;}#mermaid-1775807451538 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451538 [data-look="neo"].node .neo-line path{stroke:#ccc;filter:none;}#mermaid-1775807451538 [data-look="neo"].node circle{stroke:url(#mermaid-1775807451538-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451538 [data-look="neo"].node circle .state-start{fill:#000000;}#mermaid-1775807451538 [data-look="neo"].icon-shape .icon{fill:url(#mermaid-1775807451538-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451538 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#mermaid-1775807451538-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451538 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1775807451538_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></polygon></marker><marker id="mermaid-1775807451538_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451538_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451538_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451538_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451538_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"></path></marker><marker id="mermaid-1775807451538_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M134.102,41L146.225,41C158.348,41,182.594,41,206.173,41C229.753,41,252.665,41,264.122,41L275.578,41" id="mermaid-1775807451538-L_T0_T1_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T0_T1_0" data-points="W3sieCI6MTM0LjEwMTU2MjUsInkiOjQxfSx7IngiOjIwNi44Mzk4NDM3NSwieSI6NDF9LHsieCI6Mjc5LjU3ODEyNSwieSI6NDF9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451538_flowchart-v2-pointEnd)"></path><path d="M449.742,41L462.477,41C475.212,41,500.682,41,525.486,41C550.289,41,574.426,41,586.494,41L598.563,41" id="mermaid-1775807451538-L_T1_T2_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_T1_T2_0" data-points="W3sieCI6NDQ5Ljc0MjE4NzUsInkiOjQxfSx7IngiOjUyNi4xNTIzNDM3NSwieSI6NDF9LHsieCI6NjAyLjU2MjUsInkiOjQxfV0=" data-look="classic" marker-end="url(#mermaid-1775807451538_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(206.83984375, 41)"><g class="label" data-id="L_T0_T1_0" transform="translate(-47.73828125, -9)"><foreignobject width="95.4765625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>parse formats</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(526.15234375, 41)"><g class="label" data-id="L_T1_T2_0" transform="translate(-51.41015625, -9)"><foreignobject width="102.8203125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>add connectors</p></span></div></foreignobject></g></g></g><g class="nodes"><g class="node default" id="mermaid-1775807451538-flowchart-T0-0" data-look="classic" transform="translate(71.05078125, 41)"><rect class="basic label-container" style="fill:#1a2030 !important;stroke:#5a6478 !important" x="-63.05078125" y="-33" width="126.1015625" height="66"></rect><g class="label" style="color:#c0c8d8 !important" transform="translate(-33.05078125, -18)"><rect></rect><foreignobject width="66.1015625" height="36"><div style="color: rgb(192, 200, 216) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#c0c8d8 !important" class="nodeLabel"><p>Tier 0<br>File-Only</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451538-flowchart-T1-1" data-look="classic" transform="translate(364.66015625, 41)"><rect class="basic label-container" style="fill:#0a1a2a !important;stroke:#00d4ff !important" x="-85.08203125" y="-33" width="170.1640625" height="66"></rect><g class="label" style="color:#00d4ff !important" transform="translate(-55.08203125, -18)"><rect></rect><foreignobject width="110.1640625" height="36"><div style="color: rgb(0, 212, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#00d4ff !important" class="nodeLabel"><p>Tier 1<br>File + Metadata</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451538-flowchart-T2-2" data-look="classic" transform="translate(669.28515625, 41)"><rect class="basic label-container" style="fill:#0a200e !important;stroke:#259C52 !important" x="-66.72265625" y="-33" width="133.4453125" height="66"></rect><g class="label" style="color:#259C52 !important" transform="translate(-36.72265625, -18)"><rect></rect><foreignobject width="73.4453125" height="36"><div style="color: rgb(37, 156, 82) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#259C52 !important" class="nodeLabel"><p>Tier 2<br>APIs / MCP</p></span></div></foreignobject></g></g></g></g></g><defs><filter id="mermaid-1775807451538-drop-shadow" height="130%" width="130%"><fedropshadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><defs><filter id="mermaid-1775807451538-drop-shadow-small" height="150%" width="150%"><fedropshadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><lineargradient id="mermaid-1775807451538-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cccccc" stop-opacity="1"></stop><stop offset="100%" stop-color="hsl(180, 0%, 18.3529411765%)" stop-opacity="1"></stop></lineargradient></svg></div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3><span class="tier tier-0">Tier 0</span> File-Only Awareness</h3>
+      <p style="font-size: 0.85rem; margin-top: 8px;">
+        Detect projects by extension and directory markers. Classify by tool family.
+        Represent as graph nodes with containment edges and manual user links.
+      </p>
+      <p style="font-size: 0.75rem; color: var(--dim); margin-bottom: 0;">
+        <strong>Extensions:</strong> .unity, .uproject, .tscn, .toe, .als, .flp, .logicx, .pde, .glsl
+      </p>
+    </div>
+    <div class="card">
+      <h3><span class="tier tier-1">Tier 1</span> File + Metadata Graph</h3>
+      <p style="font-size: 0.85rem; margin-top: 8px;">
+        Parse project files to extract structure: scene trees (Godot), COMP hierarchies (TouchDesigner),
+        imports/dependencies (scripts, shaders). Machine-readable project graph.
+      </p>
+      <p style="font-size: 0.75rem; color: var(--dim); margin-bottom: 0;">
+        <strong>Parsers:</strong> Godot .tscn, TD .toe/.tox, tree-sitter for code
+      </p>
+    </div>
+    <div class="card">
+      <h3><span class="tier tier-2">Tier 2</span> APIs / Connectors / MCP</h3>
+      <p style="font-size: 0.85rem; margin-top: 8px;">
+        Live state refresh, deep links ("open this scene"), and agent-accessible actions
+        (trigger builds, create Notion pages). MCP unifies how Ara talks to tools.
+      </p>
+      <p style="font-size: 0.75rem; color: var(--dim); margin-bottom: 0;">
+        <strong>Initial:</strong> Notion API + engine build hooks + Git commands
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     04 — SCANNING & RELATIONSHIP MODEL
+     ════════════════════════════════════════════════════════════ -->
+<section id="scanning" class="fade-in visible">
+  <h4>Section 04</h4>
+  <h2>// Scanning &amp; Relationship Model</h2>
+
+  <p>
+    Ara's scanner is a graph builder on top of the file system. It walks project roots,
+    classifies files by tool family, parses metadata for supported formats, and persists
+    a unified graph in local SQLite — optionally mirroring to SpacetimeDB for collaboration.
+  </p>
+
+  <div class="mermaid" data-processed="true"><svg id="mermaid-1775807451614" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 428.359375px;" viewBox="0 0 428.359375 990.1328125" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1775807451614{font-family:'Space Mono',monospace;font-size:12px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1775807451614 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1775807451614 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1775807451614 .error-icon{fill:#a44141;}#mermaid-1775807451614 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-1775807451614 .edge-thickness-normal{stroke-width:1px;}#mermaid-1775807451614 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1775807451614 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1775807451614 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1775807451614 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1775807451614 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1775807451614 .marker{fill:#2a3444;stroke:#2a3444;}#mermaid-1775807451614 .marker.cross{stroke:#2a3444;}#mermaid-1775807451614 svg{font-family:'Space Mono',monospace;font-size:12px;}#mermaid-1775807451614 p{margin:0;}#mermaid-1775807451614 .label{font-family:'Space Mono',monospace;color:#ccc;}#mermaid-1775807451614 .cluster-label text{fill:#F9FFFE;}#mermaid-1775807451614 .cluster-label span{color:#F9FFFE;}#mermaid-1775807451614 .cluster-label span p{background-color:transparent;}#mermaid-1775807451614 .label text,#mermaid-1775807451614 span{fill:#ccc;color:#ccc;}#mermaid-1775807451614 .node rect,#mermaid-1775807451614 .node circle,#mermaid-1775807451614 .node ellipse,#mermaid-1775807451614 .node polygon,#mermaid-1775807451614 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-1775807451614 .rough-node .label text,#mermaid-1775807451614 .node .label text,#mermaid-1775807451614 .image-shape .label,#mermaid-1775807451614 .icon-shape .label{text-anchor:middle;}#mermaid-1775807451614 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1775807451614 .rough-node .label,#mermaid-1775807451614 .node .label,#mermaid-1775807451614 .image-shape .label,#mermaid-1775807451614 .icon-shape .label{text-align:center;}#mermaid-1775807451614 .node.clickable{cursor:pointer;}#mermaid-1775807451614 .root .anchor path{fill:#2a3444!important;stroke-width:0;stroke:#2a3444;}#mermaid-1775807451614 .arrowheadPath{fill:lightgrey;}#mermaid-1775807451614 .edgePath .path{stroke:#2a3444;stroke-width:1px;}#mermaid-1775807451614 .flowchart-link{stroke:#2a3444;fill:none;}#mermaid-1775807451614 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451614 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451614 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451614 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-1775807451614 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-1775807451614 .cluster text{fill:#F9FFFE;}#mermaid-1775807451614 .cluster span{color:#F9FFFE;}#mermaid-1775807451614 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:'Space Mono',monospace;font-size:12px;background:#10141c;border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1775807451614 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-1775807451614 rect.text{fill:none;stroke-width:0;}#mermaid-1775807451614 .icon-shape,#mermaid-1775807451614 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451614 .icon-shape p,#mermaid-1775807451614 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-1775807451614 .icon-shape .label rect,#mermaid-1775807451614 .image-shape .label rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451614 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-1775807451614 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-1775807451614 .node .neo-node{stroke:#ccc;}#mermaid-1775807451614 [data-look="neo"].node rect,#mermaid-1775807451614 [data-look="neo"].cluster rect,#mermaid-1775807451614 [data-look="neo"].node polygon{stroke:url(#mermaid-1775807451614-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451614 [data-look="neo"].node path{stroke:url(#mermaid-1775807451614-gradient);stroke-width:1px;}#mermaid-1775807451614 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451614 [data-look="neo"].node .neo-line path{stroke:#ccc;filter:none;}#mermaid-1775807451614 [data-look="neo"].node circle{stroke:url(#mermaid-1775807451614-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451614 [data-look="neo"].node circle .state-start{fill:#000000;}#mermaid-1775807451614 [data-look="neo"].icon-shape .icon{fill:url(#mermaid-1775807451614-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451614 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#mermaid-1775807451614-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451614 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1775807451614_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></polygon></marker><marker id="mermaid-1775807451614_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451614_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451614_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451614_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451614_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"></path></marker><marker id="mermaid-1775807451614_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M223.359,56L223.359,60.167C223.359,64.333,223.359,72.667,223.359,80.333C223.359,88,223.359,95,223.359,98.5L223.359,102" id="mermaid-1775807451614-L_A_B_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_A_B_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6NTZ9LHsieCI6MjIzLjM1OTM3NSwieSI6ODF9LHsieCI6MjIzLjM1OTM3NSwieSI6MTA2fV0=" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M223.359,154L223.359,158.167C223.359,162.333,223.359,170.667,223.359,178.333C223.359,186,223.359,193,223.359,196.5L223.359,200" id="mermaid-1775807451614-L_B_C_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_B_C_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6MTU0fSx7IngiOjIyMy4zNTkzNzUsInkiOjE3OX0seyJ4IjoyMjMuMzU5Mzc1LCJ5IjoyMDR9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M223.359,252L223.359,256.167C223.359,260.333,223.359,268.667,223.359,276.333C223.359,284,223.359,291,223.359,294.5L223.359,298" id="mermaid-1775807451614-L_C_D_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_C_D_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6MjUyfSx7IngiOjIyMy4zNTkzNzUsInkiOjI3N30seyJ4IjoyMjMuMzU5Mzc1LCJ5IjozMDJ9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M187.212,401.985L173.971,413.676C160.731,425.368,134.25,448.75,121.01,465.442C107.77,482.133,107.77,492.133,107.77,497.133L107.77,502.133" id="mermaid-1775807451614-L_D_E_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_E_0" data-points="W3sieCI6MTg3LjIxMTYxNzg2ODkyMDQ4LCJ5Ijo0MDEuOTg1MDU1MzY4OTIwNX0seyJ4IjoxMDcuNzY5NTMxMjUsInkiOjQ3Mi4xMzI4MTI1fSx7IngiOjEwNy43Njk1MzEyNSwieSI6NTA2LjEzMjgxMjV9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M259.507,401.985L272.747,413.676C285.988,425.368,312.469,448.75,325.709,465.442C338.949,482.133,338.949,492.133,338.949,497.133L338.949,502.133" id="mermaid-1775807451614-L_D_F_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_D_F_0" data-points="W3sieCI6MjU5LjUwNzEzMjEzMTA3OTUsInkiOjQwMS45ODUwNTUzNjg5MjA1fSx7IngiOjMzOC45NDkyMTg3NSwieSI6NDcyLjEzMjgxMjV9LHsieCI6MzM4Ljk0OTIxODc1LCJ5Ijo1MDYuMTMyODEyNX1d" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M107.77,554.133L107.77,558.299C107.77,562.466,107.77,570.799,116.985,578.873C126.2,586.946,144.631,594.759,153.846,598.665L163.061,602.572" id="mermaid-1775807451614-L_E_G_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_E_G_0" data-points="W3sieCI6MTA3Ljc2OTUzMTI1LCJ5Ijo1NTQuMTMyODEyNX0seyJ4IjoxMDcuNzY5NTMxMjUsInkiOjU3OS4xMzI4MTI1fSx7IngiOjE2Ni43NDM5NDEzMjY1MzA2LCJ5Ijo2MDQuMTMyODEyNX1d" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M338.949,554.133L338.949,558.299C338.949,562.466,338.949,570.799,329.734,578.873C320.519,586.946,302.088,594.759,292.873,598.665L283.658,602.572" id="mermaid-1775807451614-L_F_G_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_F_G_0" data-points="W3sieCI6MzM4Ljk0OTIxODc1LCJ5Ijo1NTQuMTMyODEyNX0seyJ4IjozMzguOTQ5MjE4NzUsInkiOjU3OS4xMzI4MTI1fSx7IngiOjI3OS45NzQ4MDg2NzM0Njk0LCJ5Ijo2MDQuMTMyODEyNX1d" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M223.359,652.133L223.359,656.299C223.359,660.466,223.359,668.799,223.359,676.466C223.359,684.133,223.359,691.133,223.359,694.633L223.359,698.133" id="mermaid-1775807451614-L_G_H_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_G_H_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6NjUyLjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6Njc3LjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6NzAyLjEzMjgxMjV9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M223.359,768.133L223.359,772.299C223.359,776.466,223.359,784.799,223.359,792.466C223.359,800.133,223.359,807.133,223.359,810.633L223.359,814.133" id="mermaid-1775807451614-L_H_I_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_H_I_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6NzY4LjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6NzkzLjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6ODE4LjEzMjgxMjV9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path><path d="M223.359,866.133L223.359,870.299C223.359,874.466,223.359,882.799,223.359,890.466C223.359,898.133,223.359,905.133,223.359,908.633L223.359,912.133" id="mermaid-1775807451614-L_I_J_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_I_J_0" data-points="W3sieCI6MjIzLjM1OTM3NSwieSI6ODY2LjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6ODkxLjEzMjgxMjV9LHsieCI6MjIzLjM1OTM3NSwieSI6OTE2LjEzMjgxMjV9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451614_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_A_B_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_B_C_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_C_D_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(107.76953125, 472.1328125)"><g class="label" data-id="L_D_E_0" transform="translate(-11.01953125, -9)"><foreignobject width="22.0390625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>Yes</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(338.94921875, 472.1328125)"><g class="label" data-id="L_D_F_0" transform="translate(-7.34765625, -9)"><foreignobject width="14.6953125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>No</p></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_E_G_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_F_G_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_G_H_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_H_I_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_I_J_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g></g><g class="nodes"><g class="node default" id="mermaid-1775807451614-flowchart-A-0" data-look="classic" transform="translate(223.359375, 32)"><rect class="basic label-container" style="fill:#0a1a2a !important;stroke:#00d4ff !important" x="-92.42578125" y="-24" width="184.8515625" height="48"></rect><g class="label" style="color:#00d4ff !important" transform="translate(-62.42578125, -9)"><rect></rect><foreignobject width="124.8515625" height="18"><div style="color: rgb(0, 212, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#00d4ff !important" class="nodeLabel"><p>Scan Project Root</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-B-1" data-look="classic" transform="translate(223.359375, 130)"><rect class="basic label-container" style="" x="-85.08203125" y="-24" width="170.1640625" height="48"></rect><g class="label" style="" transform="translate(-55.08203125, -9)"><rect></rect><foreignobject width="110.1640625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Walk Filesystem</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-C-3" data-look="classic" transform="translate(223.359375, 228)"><rect class="basic label-container" style="" x="-107.11328125" y="-24" width="214.2265625" height="48"></rect><g class="label" style="" transform="translate(-77.11328125, -9)"><rect></rect><foreignobject width="154.2265625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Classify by Extension</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-D-5" data-look="classic" transform="translate(223.359375, 370.06640625)"><polygon points="68.06640625,0 136.1328125,-68.06640625 68.06640625,-136.1328125 0,-68.06640625" class="label-container" transform="translate(-67.56640625, 68.06640625)"></polygon><g class="label" style="" transform="translate(-44.06640625, -9)"><rect></rect><foreignobject width="88.1328125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Tier 1 Tool?</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-E-7" data-look="classic" transform="translate(107.76953125, 530.1328125)"><rect class="basic label-container" style="" x="-99.76953125" y="-24" width="199.5390625" height="48"></rect><g class="label" style="" transform="translate(-69.76953125, -9)"><rect></rect><foreignobject width="139.5390625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Parse Project Files</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-F-9" data-look="classic" transform="translate(338.94921875, 530.1328125)"><rect class="basic label-container" style="" x="-81.41015625" y="-24" width="162.8203125" height="48"></rect><g class="label" style="" transform="translate(-51.41015625, -9)"><rect></rect><foreignobject width="102.8203125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>File Node Only</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-G-11" data-look="classic" transform="translate(223.359375, 628.1328125)"><rect class="basic label-container" style="" x="-88.75390625" y="-24" width="177.5078125" height="48"></rect><g class="label" style="" transform="translate(-58.75390625, -9)"><rect></rect><foreignobject width="117.5078125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Extract Entities</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-H-15" data-look="classic" transform="translate(223.359375, 735.1328125)"><rect class="basic label-container" style="fill:#0a1a2a !important;stroke:#00d4ff !important" x="-77.73828125" y="-33" width="155.4765625" height="66"></rect><g class="label" style="color:#00d4ff !important" transform="translate(-47.73828125, -18)"><rect></rect><foreignobject width="95.4765625" height="36"><div style="color: rgb(0, 212, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#00d4ff !important" class="nodeLabel"><p>Build Graph<br>Nodes + Edges</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-I-17" data-look="classic" transform="translate(223.359375, 842.1328125)"><rect class="basic label-container" style="fill:#1a2030 !important;stroke:#5a6478 !important" x="-92.42578125" y="-24" width="184.8515625" height="48"></rect><g class="label" style="color:#c0c8d8 !important" transform="translate(-62.42578125, -9)"><rect></rect><foreignobject width="124.8515625" height="18"><div style="color: rgb(192, 200, 216) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#c0c8d8 !important" class="nodeLabel"><p>Persist to SQLite</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451614-flowchart-J-19" data-look="classic" transform="translate(223.359375, 949.1328125)"><rect class="basic label-container" style="fill:#0a200e !important;stroke:#259C52 !important" x="-99.76953125" y="-33" width="199.5390625" height="66"></rect><g class="label" style="color:#259C52 !important" transform="translate(-69.76953125, -18)"><rect></rect><foreignobject width="139.5390625" height="36"><div style="color: rgb(37, 156, 82) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#259C52 !important" class="nodeLabel"><p>Sync to SpacetimeDB<br>(optional)</p></span></div></foreignobject></g></g></g></g></g><defs><filter id="mermaid-1775807451614-drop-shadow" height="130%" width="130%"><fedropshadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><defs><filter id="mermaid-1775807451614-drop-shadow-small" height="150%" width="150%"><fedropshadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><lineargradient id="mermaid-1775807451614-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cccccc" stop-opacity="1"></stop><stop offset="100%" stop-color="hsl(180, 0%, 18.3529411765%)" stop-opacity="1"></stop></lineargradient></svg></div>
+
+  <h3>Relationship Types</h3>
+  <table>
+    <thead><tr><th>Edge Type</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>CONTAINS</code></td><td>Structural nesting</td><td>folder → file, project → scene</td></tr>
+      <tr><td><code>USES</code></td><td>Runtime dependency</td><td>scene → shader, DAW → sample</td></tr>
+      <tr><td><code>DERIVED_FROM</code></td><td>Transformation lineage</td><td>baked audio from project, LOD from original</td></tr>
+      <tr><td><code>INSPIRED_BY</code></td><td>User-defined creative link</td><td>implementation → mood board</td></tr>
+      <tr><td><code>DISCUSS</code></td><td>Communication context</td><td>Slack message → project node</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ascii-box">  ┌────────────┐   USES    ┌────────────┐   INSPIRED_BY   ┌────────────┐
+  │ Unity Scene├──────────►│   Shader   ├───────────────►│ TD Prototype│
+  └──────┬─────┘           └──────┬─────┘                └──────┬─────┘
+         │                        │                             │
+    CONTAINS                 DERIVED_FROM                   DISCUSS
+         │                        │                             │
+  ┌──────▼─────┐           ┌──────▼─────┐               ┌──────▼─────┐
+  │   Prefab   │           │ Baked Pass │               │ Notion Doc │
+  └────────────┘           └────────────┘               └────────────┘</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     05 — CATEGORY BLUEPRINTS
+     ════════════════════════════════════════════════════════════ -->
+<section id="categories" class="fade-in visible">
+  <h4>Section 05</h4>
+  <h2>// Category Blueprints</h2>
+
+  <h3><span class="badge badge-blue">Games</span> Game Development</h3>
+  <table>
+    <thead><tr><th>Tier</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier tier-0">0</span></td><td>Detect Unity/Unreal/Godot/GameMaker/Phaser/Three.js projects by markers and treat as top-level nodes</td></tr>
+      <tr><td><span class="tier tier-1">1</span></td><td>Parse Godot .tscn into scene graphs; extract C#/GDScript imports for dependency subgraphs</td></tr>
+      <tr><td><span class="tier tier-2">2</span></td><td>CLI connectors to open scenes, run test builds, trigger build pipelines</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="badge badge-blue">Audio</span> DAWs &amp; Audio</h3>
+  <table>
+    <thead><tr><th>Tier</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier tier-0">0</span></td><td>Index .als/.flp/.logicx/.ptx/.reaper sessions as nodes; link audio folders via heuristics</td></tr>
+      <tr><td><span class="tier tier-1">1</span></td><td>Parse open formats for track lists and basic routing (later phase)</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="badge badge-green">Code</span> Creative Coding &amp; Visual Tools</h3>
+  <table>
+    <thead><tr><th>Tier</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier tier-0">0</span></td><td>Index .toe/.tox, .pde, .js, .cpp, .glsl projects by folder structure</td></tr>
+      <tr><td><span class="tier tier-1">1</span></td><td>TouchDesigner: extract networks, COMPs, panel connections into graph. Code: parse imports/includes</td></tr>
+    </tbody>
+  </table>
+
+  <h3><span class="badge badge-purple">Collab</span> Collaboration &amp; PM</h3>
+  <table>
+    <thead><tr><th>Tier</th><th>Behavior</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tier tier-0">0</span></td><td>Represent Notion pages, Google Docs, Jira issues as nodes linked to implementation artifacts</td></tr>
+      <tr><td><span class="tier tier-2">2</span></td><td>Notion API: create/update tasks based on project graph insights; link databases to Ara clusters</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     06 — STORAGE ARCHITECTURE
+     ════════════════════════════════════════════════════════════ -->
+<section id="storage" class="fade-in visible">
+  <h4>Section 06</h4>
+  <h2>// Storage Architecture</h2>
+
+  <div class="ascii-box">  PROJECT ROOT
+  │
+  ├── .ara/
+  │   ├── graph.db          ← SQLite local project graph
+  │   ├── config.toml       ← SpacetimeDB URL, Git remotes, connectors
+  │   └── cache/            ← Thumbnails, indexes, partial parses
+  │
+  ├── Assets/               ← Unity / engine assets
+  ├── scenes/               ← Godot .tscn files
+  ├── shaders/              ← GLSL / HLSL
+  ├── audio/                ← DAW sessions + samples
+  └── docs/                 ← Notion exports, markdown</div>
+
+  <div class="mermaid" data-processed="true"><svg id="mermaid-1775807451645" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 1210.390625px;" viewBox="0 0 1210.390625 450" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1775807451645{font-family:'Space Mono',monospace;font-size:12px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1775807451645 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1775807451645 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1775807451645 .error-icon{fill:#a44141;}#mermaid-1775807451645 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-1775807451645 .edge-thickness-normal{stroke-width:1px;}#mermaid-1775807451645 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1775807451645 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1775807451645 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1775807451645 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1775807451645 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1775807451645 .marker{fill:#2a3444;stroke:#2a3444;}#mermaid-1775807451645 .marker.cross{stroke:#2a3444;}#mermaid-1775807451645 svg{font-family:'Space Mono',monospace;font-size:12px;}#mermaid-1775807451645 p{margin:0;}#mermaid-1775807451645 .label{font-family:'Space Mono',monospace;color:#ccc;}#mermaid-1775807451645 .cluster-label text{fill:#F9FFFE;}#mermaid-1775807451645 .cluster-label span{color:#F9FFFE;}#mermaid-1775807451645 .cluster-label span p{background-color:transparent;}#mermaid-1775807451645 .label text,#mermaid-1775807451645 span{fill:#ccc;color:#ccc;}#mermaid-1775807451645 .node rect,#mermaid-1775807451645 .node circle,#mermaid-1775807451645 .node ellipse,#mermaid-1775807451645 .node polygon,#mermaid-1775807451645 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-1775807451645 .rough-node .label text,#mermaid-1775807451645 .node .label text,#mermaid-1775807451645 .image-shape .label,#mermaid-1775807451645 .icon-shape .label{text-anchor:middle;}#mermaid-1775807451645 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1775807451645 .rough-node .label,#mermaid-1775807451645 .node .label,#mermaid-1775807451645 .image-shape .label,#mermaid-1775807451645 .icon-shape .label{text-align:center;}#mermaid-1775807451645 .node.clickable{cursor:pointer;}#mermaid-1775807451645 .root .anchor path{fill:#2a3444!important;stroke-width:0;stroke:#2a3444;}#mermaid-1775807451645 .arrowheadPath{fill:lightgrey;}#mermaid-1775807451645 .edgePath .path{stroke:#2a3444;stroke-width:1px;}#mermaid-1775807451645 .flowchart-link{stroke:#2a3444;fill:none;}#mermaid-1775807451645 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451645 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451645 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451645 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-1775807451645 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-1775807451645 .cluster text{fill:#F9FFFE;}#mermaid-1775807451645 .cluster span{color:#F9FFFE;}#mermaid-1775807451645 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:'Space Mono',monospace;font-size:12px;background:#10141c;border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1775807451645 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-1775807451645 rect.text{fill:none;stroke-width:0;}#mermaid-1775807451645 .icon-shape,#mermaid-1775807451645 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451645 .icon-shape p,#mermaid-1775807451645 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-1775807451645 .icon-shape .label rect,#mermaid-1775807451645 .image-shape .label rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451645 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-1775807451645 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-1775807451645 .node .neo-node{stroke:#ccc;}#mermaid-1775807451645 [data-look="neo"].node rect,#mermaid-1775807451645 [data-look="neo"].cluster rect,#mermaid-1775807451645 [data-look="neo"].node polygon{stroke:url(#mermaid-1775807451645-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451645 [data-look="neo"].node path{stroke:url(#mermaid-1775807451645-gradient);stroke-width:1px;}#mermaid-1775807451645 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451645 [data-look="neo"].node .neo-line path{stroke:#ccc;filter:none;}#mermaid-1775807451645 [data-look="neo"].node circle{stroke:url(#mermaid-1775807451645-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451645 [data-look="neo"].node circle .state-start{fill:#000000;}#mermaid-1775807451645 [data-look="neo"].icon-shape .icon{fill:url(#mermaid-1775807451645-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451645 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#mermaid-1775807451645-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451645 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1775807451645_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></polygon></marker><marker id="mermaid-1775807451645_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451645_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451645_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451645_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451645_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"></path></marker><marker id="mermaid-1775807451645_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"><g class="cluster" id="mermaid-1775807451645-Remote" data-look="classic"><rect style="" x="8" y="8" width="640.7734375" height="434"></rect><g class="cluster-label" transform="translate(306.3515625, 8)"><foreignobject width="44.0703125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Remote</p></span></div></foreignobject></g></g><g class="cluster" id="mermaid-1775807451645-Local" data-look="classic"><rect style="" x="668.7734375" y="167" width="533.6171875" height="116"></rect><g class="cluster-label" transform="translate(917.21875, 167)"><foreignobject width="36.7265625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5;"><span class="nodeLabel"><p>Local</p></span></div></foreignobject></g></g></g><g class="edgePaths"><path d="M747.682,258L745.729,262.167C743.776,266.333,739.869,274.667,632.241,284.5C524.612,294.333,313.261,305.667,213.589,316.562C113.916,327.458,125.923,337.915,131.926,343.144L137.929,348.373" id="mermaid-1775807451645-L_DB_STDB_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DB_STDB_0" data-points="W3sieCI6NzQ3LjY4MjQ4MjQ4OTIyNDIsInkiOjI1OH0seyJ4Ijo3MzUuOTYyODkwNjI1LCJ5IjoyODN9LHsieCI6MTAxLjkxMDE1NjI1LCJ5IjozMTd9LHsieCI6MTQwLjk0NTEzNzU5MzI4MzYsInkiOjM1MX1d" data-look="classic" marker-end="url(#mermaid-1775807451645_flowchart-v2-pointEnd)"></path><path d="M909.869,249L902.064,254.667C894.259,260.333,878.649,271.667,787.534,283C696.418,294.333,529.797,305.667,431.522,316.772C333.246,327.878,303.317,338.756,288.352,344.195L273.388,349.634" id="mermaid-1775807451645-L_Config_STDB_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Config_STDB_0" data-points="W3sieCI6OTA5Ljg2OTIwNzk3NDEzNzksInkiOjI0OX0seyJ4Ijo4NjMuMDM5MDYyNSwieSI6MjgzfSx7IngiOjM2My4xNzU3ODEyNSwieSI6MzE3fSx7IngiOjI2OS42MjgyMDY2MjMxMzQzNiwieSI6MzUxfV0=" data-look="classic" marker-end="url(#mermaid-1775807451645_flowchart-v2-pointEnd)"></path><path d="M992.47,249L1004.168,254.667C1015.866,260.333,1039.262,271.667,965.104,283C890.945,294.333,719.232,305.667,626.62,316.591C534.007,327.515,520.495,338.029,513.739,343.286L506.983,348.544" id="mermaid-1775807451645-L_Config_Git_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Config_Git_0" data-points="W3sieCI6OTkyLjQ3MDIzMTY4MTAzNDUsInkiOjI0OX0seyJ4IjoxMDYyLjY1ODIwMzEyNSwieSI6MjgzfSx7IngiOjU0Ny41MTk1MzEyNSwieSI6MzE3fSx7IngiOjUwMy44MjYyMDEwMjYxMTk0LCJ5IjozNTF9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451645_flowchart-v2-pointEnd)"></path><path d="M808.605,258L814.344,262.167C820.083,266.333,831.561,274.667,742.973,284.5C654.384,294.333,465.729,305.667,386.366,316.772C307.004,327.878,336.933,338.756,351.898,344.195L366.862,349.634" id="mermaid-1775807451645-L_DB_Git_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_DB_Git_0" data-points="W3sieCI6ODA4LjYwNTEzMjAwNDMxMDMsInkiOjI1OH0seyJ4Ijo4NDMuMDM5MDYyNSwieSI6MjgzfSx7IngiOjI3Ny4wNzQyMTg3NSwieSI6MzE3fSx7IngiOjM3MC42MjE3OTMzNzY4NjU2NCwieSI6MzUxfV0=" data-look="classic" marker-end="url(#mermaid-1775807451645_flowchart-v2-pointEnd)"></path><path d="M338.484,99L338.484,104.667C338.484,110.333,338.484,121.667,338.484,133C338.484,144.333,338.484,155.667,398.705,169.558C458.926,183.45,579.368,199.899,639.589,208.124L699.81,216.349" id="mermaid-1775807451645-L_Cloud_DB_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Cloud_DB_0" data-points="W3sieCI6MzM4LjQ4NDM3NSwieSI6OTl9LHsieCI6MzM4LjQ4NDM3NSwieSI6MTMzfSx7IngiOjMzOC40ODQzNzUsInkiOjE2N30seyJ4Ijo3MDMuNzczNDM3NSwieSI6MjE2Ljg5MDE4OTk0NjE4OTU3fV0=" data-look="classic" marker-end="url(#mermaid-1775807451645_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(101.91015625, 317)"><g class="label" data-id="L_DB_STDB_0" transform="translate(-14.69140625, -9)"><foreignobject width="29.3828125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>sync</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(363.17578125, 317)"><g class="label" data-id="L_Config_STDB_0" transform="translate(-33.05078125, -9)"><foreignobject width="66.1015625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>points to</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(547.51953125, 317)"><g class="label" data-id="L_Config_Git_0" transform="translate(-33.05078125, -9)"><foreignobject width="66.1015625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>points to</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(277.07421875, 317)"><g class="label" data-id="L_DB_Git_0" transform="translate(-33.05078125, -9)"><foreignobject width="66.1015625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>snapshots</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(338.484375, 133)"><g class="label" data-id="L_Cloud_DB_0" transform="translate(-47.73828125, -9)"><foreignobject width="95.4765625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>location refs</p></span></div></foreignobject></g></g></g><g class="nodes"><g class="node default" id="mermaid-1775807451645-flowchart-DB-0" data-look="classic" transform="translate(763.15234375, 225)"><rect class="basic label-container" style="fill:#0a1a2a !important;stroke:#00d4ff !important" x="-59.37890625" y="-33" width="118.7578125" height="66"></rect><g class="label" style="color:#00d4ff !important" transform="translate(-29.37890625, -18)"><rect></rect><foreignobject width="58.7578125" height="36"><div style="color: rgb(0, 212, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#00d4ff !important" class="nodeLabel"><p>SQLite<br>graph.db</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451645-flowchart-Config-1" data-look="classic" transform="translate(942.92578125, 225)"><rect class="basic label-container" style="" x="-70.39453125" y="-24" width="140.7890625" height="48"></rect><g class="label" style="" transform="translate(-40.39453125, -9)"><rect></rect><foreignobject width="80.7890625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>config.toml</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451645-flowchart-Cache-2" data-look="classic" transform="translate(1115.35546875, 225)"><rect class="basic label-container" style="" x="-52.03515625" y="-24" width="104.0703125" height="48"></rect><g class="label" style="" transform="translate(-22.03515625, -9)"><rect></rect><foreignobject width="44.0703125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>cache/</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451645-flowchart-STDB-3" data-look="classic" transform="translate(178.83203125, 384)"><rect class="basic label-container" style="fill:#0a200e !important;stroke:#259C52 !important" x="-118.12890625" y="-33" width="236.2578125" height="66"></rect><g class="label" style="color:#259C52 !important" transform="translate(-88.12890625, -18)"><rect></rect><foreignobject width="176.2578125" height="36"><div style="color: rgb(37, 156, 82) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#259C52 !important" class="nodeLabel"><p>SpacetimeDB<br>(self-hosted or managed)</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451645-flowchart-Git-4" data-look="classic" transform="translate(461.41796875, 384)"><rect class="basic label-container" style="fill:#1a1020 !important;stroke:#a78bfa !important" x="-114.45703125" y="-33" width="228.9140625" height="66"></rect><g class="label" style="color:#a78bfa !important" transform="translate(-84.45703125, -18)"><rect></rect><foreignobject width="168.9140625" height="36"><div style="color: rgb(167, 139, 250) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#a78bfa !important" class="nodeLabel"><p>Git Remote<br>(SSH / GitHub / GitLab)</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451645-flowchart-Cloud-5" data-look="classic" transform="translate(338.484375, 66)"><rect class="basic label-container" style="" x="-125.47265625" y="-33" width="250.9453125" height="66"></rect><g class="label" style="" transform="translate(-95.47265625, -18)"><rect></rect><foreignobject width="190.9453125" height="36"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Cloud Storage<br>(Drive / Dropbox / iCloud)</p></span></div></foreignobject></g></g></g></g></g><defs><filter id="mermaid-1775807451645-drop-shadow" height="130%" width="130%"><fedropshadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><defs><filter id="mermaid-1775807451645-drop-shadow-small" height="150%" width="150%"><fedropshadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><lineargradient id="mermaid-1775807451645-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cccccc" stop-opacity="1"></stop><stop offset="100%" stop-color="hsl(180, 0%, 18.3529411765%)" stop-opacity="1"></stop></lineargradient></svg></div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>SpacetimeDB</h3>
+      <p style="font-size: 0.85rem;">Real-time graph state engine. Tables for nodes, edges, tags, comments, workspaces, users. Client subscriptions restricted to current project. Self-hostable via Docker/systemd.</p>
+    </div>
+    <div class="card">
+      <h3>Git Integration</h3>
+      <p style="font-size: 0.85rem;">Expose status (dirty, branch, ahead/behind). Simple commands: commit, push, pull, tag. Optionally store graph snapshots alongside code commits for time-travel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     07 — AGENTIC WORKFLOWS
+     ════════════════════════════════════════════════════════════ -->
+<section id="agents" class="fade-in visible">
+  <h4>Section 07</h4>
+  <h2>// Agentic Workflows</h2>
+
+  <p>
+    With the project graph spanning engines, DAWs, creative code, docs, and PM tools,
+    agents can perform higher-level cross-tool workflows.
+  </p>
+
+  <div class="mermaid" data-processed="true"><svg id="mermaid-1775807451673" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="flowchart" style="max-width: 993.390625px;" viewBox="0 0 993.390625 211" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1775807451673{font-family:'Space Mono',monospace;font-size:12px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1775807451673 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1775807451673 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1775807451673 .error-icon{fill:#a44141;}#mermaid-1775807451673 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-1775807451673 .edge-thickness-normal{stroke-width:1px;}#mermaid-1775807451673 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1775807451673 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1775807451673 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1775807451673 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1775807451673 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1775807451673 .marker{fill:#2a3444;stroke:#2a3444;}#mermaid-1775807451673 .marker.cross{stroke:#2a3444;}#mermaid-1775807451673 svg{font-family:'Space Mono',monospace;font-size:12px;}#mermaid-1775807451673 p{margin:0;}#mermaid-1775807451673 .label{font-family:'Space Mono',monospace;color:#ccc;}#mermaid-1775807451673 .cluster-label text{fill:#F9FFFE;}#mermaid-1775807451673 .cluster-label span{color:#F9FFFE;}#mermaid-1775807451673 .cluster-label span p{background-color:transparent;}#mermaid-1775807451673 .label text,#mermaid-1775807451673 span{fill:#ccc;color:#ccc;}#mermaid-1775807451673 .node rect,#mermaid-1775807451673 .node circle,#mermaid-1775807451673 .node ellipse,#mermaid-1775807451673 .node polygon,#mermaid-1775807451673 .node path{fill:#1f2020;stroke:#ccc;stroke-width:1px;}#mermaid-1775807451673 .rough-node .label text,#mermaid-1775807451673 .node .label text,#mermaid-1775807451673 .image-shape .label,#mermaid-1775807451673 .icon-shape .label{text-anchor:middle;}#mermaid-1775807451673 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1775807451673 .rough-node .label,#mermaid-1775807451673 .node .label,#mermaid-1775807451673 .image-shape .label,#mermaid-1775807451673 .icon-shape .label{text-align:center;}#mermaid-1775807451673 .node.clickable{cursor:pointer;}#mermaid-1775807451673 .root .anchor path{fill:#2a3444!important;stroke-width:0;stroke:#2a3444;}#mermaid-1775807451673 .arrowheadPath{fill:lightgrey;}#mermaid-1775807451673 .edgePath .path{stroke:#2a3444;stroke-width:1px;}#mermaid-1775807451673 .flowchart-link{stroke:#2a3444;fill:none;}#mermaid-1775807451673 .edgeLabel{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451673 .edgeLabel p{background-color:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451673 .edgeLabel rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451673 .labelBkg{background-color:rgba(87.75, 87.75, 87.75, 0.5);}#mermaid-1775807451673 .cluster rect{fill:hsl(180, 1.5873015873%, 28.3529411765%);stroke:rgba(255, 255, 255, 0.25);stroke-width:1px;}#mermaid-1775807451673 .cluster text{fill:#F9FFFE;}#mermaid-1775807451673 .cluster span{color:#F9FFFE;}#mermaid-1775807451673 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:'Space Mono',monospace;font-size:12px;background:#10141c;border:1px solid rgba(255, 255, 255, 0.25);border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1775807451673 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#mermaid-1775807451673 rect.text{fill:none;stroke-width:0;}#mermaid-1775807451673 .icon-shape,#mermaid-1775807451673 .image-shape{background-color:hsl(0, 0%, 34.4117647059%);text-align:center;}#mermaid-1775807451673 .icon-shape p,#mermaid-1775807451673 .image-shape p{background-color:hsl(0, 0%, 34.4117647059%);padding:2px;}#mermaid-1775807451673 .icon-shape .label rect,#mermaid-1775807451673 .image-shape .label rect{opacity:0.5;background-color:hsl(0, 0%, 34.4117647059%);fill:hsl(0, 0%, 34.4117647059%);}#mermaid-1775807451673 .label-icon{display:inline-block;height:1em;overflow:visible;vertical-align:-0.125em;}#mermaid-1775807451673 .node .label-icon path{fill:currentColor;stroke:revert;stroke-width:revert;}#mermaid-1775807451673 .node .neo-node{stroke:#ccc;}#mermaid-1775807451673 [data-look="neo"].node rect,#mermaid-1775807451673 [data-look="neo"].cluster rect,#mermaid-1775807451673 [data-look="neo"].node polygon{stroke:url(#mermaid-1775807451673-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451673 [data-look="neo"].node path{stroke:url(#mermaid-1775807451673-gradient);stroke-width:1px;}#mermaid-1775807451673 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451673 [data-look="neo"].node .neo-line path{stroke:#ccc;filter:none;}#mermaid-1775807451673 [data-look="neo"].node circle{stroke:url(#mermaid-1775807451673-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451673 [data-look="neo"].node circle .state-start{fill:#000000;}#mermaid-1775807451673 [data-look="neo"].icon-shape .icon{fill:url(#mermaid-1775807451673-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451673 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#mermaid-1775807451673-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451673 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1775807451673_flowchart-v2-pointEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-pointStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-pointEnd-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="11.5" refY="7" markerUnits="userSpaceOnUse" markerWidth="10.5" markerHeight="14" orient="auto"><path d="M 0 0 L 11.5 7 L 0 14 z" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-pointStart-margin" class="marker flowchart-v2" viewBox="0 0 11.5 14" refX="1" refY="7" markerUnits="userSpaceOnUse" markerWidth="11.5" markerHeight="14" orient="auto"><polygon points="0,7 11.5,14 11.5,0" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></polygon></marker><marker id="mermaid-1775807451673_flowchart-v2-circleEnd" class="marker flowchart-v2" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451673_flowchart-v2-circleStart" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451673_flowchart-v2-circleEnd-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refY="5" refX="12.25" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451673_flowchart-v2-circleStart-margin" class="marker flowchart-v2" viewBox="0 0 10 10" refX="-2" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 0; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1775807451673_flowchart-v2-crossEnd" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-crossStart" class="marker cross flowchart-v2" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-crossEnd-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="17.7" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5;"></path></marker><marker id="mermaid-1775807451673_flowchart-v2-crossStart-margin" class="marker cross flowchart-v2" viewBox="0 0 15 15" refX="-3.5" refY="7.5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 1,1 L 14,14 M 1,14 L 14,1" class="arrowMarkerPath" style="stroke-width: 2.5; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M354.273,47L358.44,47C362.607,47,370.94,47,381.705,49.352C392.471,51.704,405.668,56.407,412.266,58.759L418.865,61.111" id="mermaid-1775807451673-L_S_Sh_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_S_Sh_0" data-points="W3sieCI6MzU0LjI3MzQzNzUsInkiOjQ3fSx7IngiOjM3OS4yNzM0Mzc1LCJ5Ijo0N30seyJ4Ijo0MjIuNjMyODEyNSwieSI6NjIuNDUzOTEyNjE2MTkwOTh9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M526.703,81L533.93,81C541.156,81,555.609,81,566.336,81C577.063,81,584.063,81,587.563,81L591.063,81" id="mermaid-1775807451673-L_Sh_TD_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Sh_TD_0" data-points="W3sieCI6NTI2LjcwMzEyNSwieSI6ODF9LHsieCI6NTcwLjA2MjUsInkiOjgxfSx7IngiOjU5NS4wNjI1LCJ5Ijo4MX1d" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M717.651,57L726.075,52.833C734.499,48.667,751.347,40.333,763.271,36.167C775.195,32,782.195,32,785.695,32L789.195,32" id="mermaid-1775807451673-L_TD_Ins_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_TD_Ins_0" data-points="W3sieCI6NzE3LjY1MTIyNzY3ODU3MTQsInkiOjU3fSx7IngiOjc2OC4xOTUzMTI1LCJ5IjozMn0seyJ4Ijo3OTMuMTk1MzEyNSwieSI6MzJ9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M717.651,105L726.075,109.167C734.499,113.333,751.347,121.667,766.943,125.833C782.539,130,796.883,130,804.055,130L811.227,130" id="mermaid-1775807451673-L_TD_DAW_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_TD_DAW_0" data-points="W3sieCI6NzE3LjY1MTIyNzY3ODU3MTQsInkiOjEwNX0seyJ4Ijo3NjguMTk1MzEyNSwieSI6MTMwfSx7IngiOjgxNS4yMjY1NjI1LCJ5IjoxMzB9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M308.497,71L320.293,82.5C332.089,94,355.681,117,372.975,130.748C390.269,144.495,401.265,148.991,406.763,151.239L412.261,153.486" id="mermaid-1775807451673-L_S_Not_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_S_Not_0" data-points="W3sieCI6MzA4LjQ5Njg0OTc5ODM4NzEsInkiOjcxfSx7IngiOjM3OS4yNzM0Mzc1LCJ5IjoxNDB9LHsieCI6NDE1Ljk2MzY0MTgyNjkyMzEsInkiOjE1NX1d" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M545.063,179L549.229,179C553.396,179,561.729,179,571.232,179C580.734,179,591.406,179,596.742,179L602.078,179" id="mermaid-1775807451673-L_Not_Jira_0" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Not_Jira_0" data-points="W3sieCI6NTQ1LjA2MjUsInkiOjE3OX0seyJ4Ijo1NzAuMDYyNSwieSI6MTc5fSx7IngiOjYwNi4wNzgxMjUsInkiOjE3OX1d" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M90.142,96L101.636,87.833C113.13,79.667,136.117,63.333,156.008,55.167C175.898,47,192.691,47,201.088,47L209.484,47" id="mermaid-1775807451673-L_Agent_S_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Agent_S_0" data-points="W3sieCI6OTAuMTQxNTM0Njc0NjU3NTQsInkiOjk2fSx7IngiOjE1OS4xMDU0Njg3NSwieSI6NDd9LHsieCI6MjEzLjQ4NDM3NSwieSI6NDd9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M92.1,144L103.267,151.5C114.435,159,136.77,174,168.733,181.5C200.697,189,242.288,189,278.982,189C315.677,189,347.475,189,366.878,188.633C386.281,188.265,393.288,187.531,396.792,187.164L400.295,186.796" id="mermaid-1775807451673-L_Agent_Not_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Agent_Not_0" data-points="W3sieCI6OTIuMDk5Njk0MjkzNDc4MjUsInkiOjE0NH0seyJ4IjoxNTkuMTA1NDY4NzUsInkiOjE4OX0seyJ4IjoyODMuODc4OTA2MjUsInkiOjE4OX0seyJ4IjozNzkuMjczNDM3NSwieSI6MTg5fSx7IngiOjQwNC4yNzM0Mzc1LCJ5IjoxODYuMzc5MzA0Njk2Nzc3MzV9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path><path d="M104.727,120L113.79,120C122.853,120,140.979,120,170.838,120C200.697,120,242.288,120,278.982,120C315.677,120,347.475,120,369.984,117.298C392.492,114.596,405.711,109.191,412.321,106.489L418.93,103.787" id="mermaid-1775807451673-L_Agent_Sh_0" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" style=";" data-edge="true" data-et="edge" data-id="L_Agent_Sh_0" data-points="W3sieCI6MTA0LjcyNjU2MjUsInkiOjEyMH0seyJ4IjoxNTkuMTA1NDY4NzUsInkiOjEyMH0seyJ4IjoyODMuODc4OTA2MjUsInkiOjEyMH0seyJ4IjozNzkuMjczNDM3NSwieSI6MTIwfSx7IngiOjQyMi42MzI4MTI1LCJ5IjoxMDIuMjczNDUzMTc1NTQ1NjR9XQ==" data-look="classic" marker-end="url(#mermaid-1775807451673_flowchart-v2-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" data-id="L_S_Sh_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_Sh_TD_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_TD_Ins_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_TD_DAW_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_S_Not_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel"><g class="label" data-id="L_Not_Jira_0" transform="translate(0, 0)"><foreignobject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(159.10546875, 47)"><g class="label" data-id="L_Agent_S_0" transform="translate(-29.37890625, -9)"><foreignobject width="58.7578125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>traverse</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(283.87890625, 189)"><g class="label" data-id="L_Agent_Not_0" transform="translate(-29.37890625, -9)"><foreignobject width="58.7578125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>document</p></span></div></foreignobject></g></g><g class="edgeLabel" transform="translate(283.87890625, 120)"><g class="label" data-id="L_Agent_Sh_0" transform="translate(-40.39453125, -9)"><foreignobject width="80.7890625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="edgeLabel"><p>flag unused</p></span></div></foreignobject></g></g></g><g class="nodes"><g class="node default" id="mermaid-1775807451673-flowchart-S-0" data-look="classic" transform="translate(283.87890625, 47)"><rect class="basic label-container" style="fill:#0a1a2a !important;stroke:#00d4ff !important" x="-70.39453125" y="-24" width="140.7890625" height="48"></rect><g class="label" style="color:#00d4ff !important" transform="translate(-40.39453125, -9)"><rect></rect><foreignobject width="80.7890625" height="18"><div style="color: rgb(0, 212, 255) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#00d4ff !important" class="nodeLabel"><p>Unity Scene</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-Sh-1" data-look="classic" transform="translate(474.66796875, 81)"><rect class="basic label-container" style="" x="-52.03515625" y="-24" width="104.0703125" height="48"></rect><g class="label" style="" transform="translate(-22.03515625, -9)"><rect></rect><foreignobject width="44.0703125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Shader</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-TD-3" data-look="classic" transform="translate(669.12890625, 81)"><rect class="basic label-container" style="fill:#0a200e !important;stroke:#259C52 !important" x="-74.06640625" y="-24" width="148.1328125" height="48"></rect><g class="label" style="color:#259C52 !important" transform="translate(-44.06640625, -9)"><rect></rect><foreignobject width="88.1328125" height="18"><div style="color: rgb(37, 156, 82) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#259C52 !important" class="nodeLabel"><p>TD Prototype</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-Ins-5" data-look="classic" transform="translate(889.29296875, 32)"><rect class="basic label-container" style="" x="-96.09765625" y="-24" width="192.1953125" height="48"></rect><g class="label" style="" transform="translate(-66.09765625, -9)"><rect></rect><foreignobject width="132.1953125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Inspiration Images</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-DAW-7" data-look="classic" transform="translate(889.29296875, 130)"><rect class="basic label-container" style="" x="-74.06640625" y="-24" width="148.1328125" height="48"></rect><g class="label" style="" transform="translate(-44.06640625, -9)"><rect></rect><foreignobject width="88.1328125" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Ableton Cues</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-Not-9" data-look="classic" transform="translate(474.66796875, 179)"><rect class="basic label-container" style="" x="-70.39453125" y="-24" width="140.7890625" height="48"></rect><g class="label" style="" transform="translate(-40.39453125, -9)"><rect></rect><foreignobject width="80.7890625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Notion Spec</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-Jira-11" data-look="classic" transform="translate(669.12890625, 179)"><rect class="basic label-container" style="" x="-63.05078125" y="-24" width="126.1015625" height="48"></rect><g class="label" style="" transform="translate(-33.05078125, -9)"><rect></rect><foreignobject width="66.1015625" height="18"><div xmlns="http://www.w3.org/1999/xhtml" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;"><span class="nodeLabel"><p>Jira Task</p></span></div></foreignobject></g></g><g class="node default" id="mermaid-1775807451673-flowchart-Agent-12" data-look="classic" transform="translate(56.36328125, 120)"><rect class="basic label-container" style="fill:#1a1020 !important;stroke:#ff6ec4 !important" x="-48.36328125" y="-24" width="96.7265625" height="48"></rect><g class="label" style="color:#ff6ec4 !important" transform="translate(-18.36328125, -9)"><rect></rect><foreignobject width="36.7265625" height="18"><div style="color: rgb(255, 110, 196) !important; display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" xmlns="http://www.w3.org/1999/xhtml"><span style="color:#ff6ec4 !important" class="nodeLabel"><p>Agent</p></span></div></foreignobject></g></g></g></g></g><defs><filter id="mermaid-1775807451673-drop-shadow" height="130%" width="130%"><fedropshadow dx="4" dy="4" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><defs><filter id="mermaid-1775807451673-drop-shadow-small" height="150%" width="150%"><fedropshadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.06" flood-color="#FFFFFF"></fedropshadow></filter></defs><lineargradient id="mermaid-1775807451673-gradient" gradientUnits="objectBoundingBox" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#cccccc" stop-opacity="1"></stop><stop offset="100%" stop-color="hsl(180, 0%, 18.3529411765%)" stop-opacity="1"></stop></lineargradient></svg></div>
+
+  <h3>Agent Capabilities</h3>
+  <table>
+    <thead><tr><th>Agent</th><th>Capability</th><th>Boundary</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Documentation</strong></td><td>Traverse graph regions → produce summaries, diagrams, doc stubs into Notion/markdown</td><td>Read-only graph + write to docs</td></tr>
+      <tr><td><strong>Cartographer</strong></td><td>Walk cross-tool paths (shader → TD → DAW → Notion spec)</td><td>Read-only across all stores</td></tr>
+      <tr><td><strong>Refactoring</strong></td><td>Flag dead assets, circular deps, stale docs → propose tasks in PM tools</td><td>Read graph + propose writes</td></tr>
+      <tr><td><strong>Build Runner</strong></td><td>Trigger engine test builds, bounce audio, generate lightmaps</td><td>Explicit per-project opt-in</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="border-color: rgba(255,110,196,0.2); background: rgba(26,16,32,0.6);">
+    <h4 style="color: var(--pink);">Capability Boundaries</h4>
+    <p style="font-size: 0.85rem; margin-bottom: 0;">
+      Per project, users configure: which folders agents may see, which SpacetimeDB tables they can
+      read/write, which APIs they may call, and whether they can perform writes or only propose them.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     08 — MVP MILESTONES
+     ════════════════════════════════════════════════════════════ -->
+<section id="milestones" class="fade-in visible">
+  <h4>Section 08</h4>
+  <h2>// MVP Milestones</h2>
+
+  <div class="mermaid" data-processed="true"><svg id="mermaid-1775807451700" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 912 292" style="max-width: 912px;" role="graphics-document document" aria-roledescription="gantt"><style>#mermaid-1775807451700{font-family:'Space Mono',monospace;font-size:12px;fill:#ccc;}@keyframes edge-animation-frame{from{stroke-dashoffset:0;}}@keyframes dash{to{stroke-dashoffset:0;}}#mermaid-1775807451700 .edge-animation-slow{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 50s linear infinite;stroke-linecap:round;}#mermaid-1775807451700 .edge-animation-fast{stroke-dasharray:9,5!important;stroke-dashoffset:900;animation:dash 20s linear infinite;stroke-linecap:round;}#mermaid-1775807451700 .error-icon{fill:#a44141;}#mermaid-1775807451700 .error-text{fill:#ddd;stroke:#ddd;}#mermaid-1775807451700 .edge-thickness-normal{stroke-width:1px;}#mermaid-1775807451700 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1775807451700 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1775807451700 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-1775807451700 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1775807451700 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1775807451700 .marker{fill:#2a3444;stroke:#2a3444;}#mermaid-1775807451700 .marker.cross{stroke:#2a3444;}#mermaid-1775807451700 svg{font-family:'Space Mono',monospace;font-size:12px;}#mermaid-1775807451700 p{margin:0;}#mermaid-1775807451700 .mermaid-main-font{font-family:'Space Mono',monospace;}#mermaid-1775807451700 .exclude-range{fill:hsl(52.9411764706, 28.813559322%, 48.431372549%);}#mermaid-1775807451700 .section{stroke:none;opacity:0.2;}#mermaid-1775807451700 .section0{fill:hsl(52.9411764706, 28.813559322%, 58.431372549%);}#mermaid-1775807451700 .section2{fill:#EAE8D9;}#mermaid-1775807451700 .section1,#mermaid-1775807451700 .section3{fill:#333;opacity:0.2;}#mermaid-1775807451700 .sectionTitle0{fill:#F9FFFE;}#mermaid-1775807451700 .sectionTitle1{fill:#F9FFFE;}#mermaid-1775807451700 .sectionTitle2{fill:#F9FFFE;}#mermaid-1775807451700 .sectionTitle3{fill:#F9FFFE;}#mermaid-1775807451700 .sectionTitle{text-anchor:start;font-family:'Space Mono',monospace;}#mermaid-1775807451700 .grid .tick{stroke:lightgrey;opacity:0.8;shape-rendering:crispEdges;}#mermaid-1775807451700 .grid .tick text{font-family:'Space Mono',monospace;fill:#ccc;}#mermaid-1775807451700 .grid path{stroke-width:0;}#mermaid-1775807451700 .today{fill:none;stroke:#DB5757;stroke-width:2px;}#mermaid-1775807451700 .task{stroke-width:2;}#mermaid-1775807451700 .taskText{text-anchor:middle;font-family:'Space Mono',monospace;}#mermaid-1775807451700 .taskTextOutsideRight{fill:#2c2c2c;text-anchor:start;font-family:'Space Mono',monospace;}#mermaid-1775807451700 .taskTextOutsideLeft{fill:#2c2c2c;text-anchor:end;}#mermaid-1775807451700 .task.clickable{cursor:pointer;}#mermaid-1775807451700 .taskText.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1775807451700 .taskTextOutsideLeft.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1775807451700 .taskTextOutsideRight.clickable{cursor:pointer;fill:#003163!important;font-weight:bold;}#mermaid-1775807451700 .taskText0,#mermaid-1775807451700 .taskText1,#mermaid-1775807451700 .taskText2,#mermaid-1775807451700 .taskText3{fill:hsl(28.5714285714, 17.3553719008%, 86.2745098039%);}#mermaid-1775807451700 .task0,#mermaid-1775807451700 .task1,#mermaid-1775807451700 .task2,#mermaid-1775807451700 .task3{fill:hsl(180, 1.5873015873%, 35.3529411765%);stroke:#ffffff;}#mermaid-1775807451700 .taskTextOutside0,#mermaid-1775807451700 .taskTextOutside2{fill:lightgrey;}#mermaid-1775807451700 .taskTextOutside1,#mermaid-1775807451700 .taskTextOutside3{fill:lightgrey;}#mermaid-1775807451700 .active0,#mermaid-1775807451700 .active1,#mermaid-1775807451700 .active2,#mermaid-1775807451700 .active3{fill:#81B1DB;stroke:#ffffff;}#mermaid-1775807451700 .activeText0,#mermaid-1775807451700 .activeText1,#mermaid-1775807451700 .activeText2,#mermaid-1775807451700 .activeText3{fill:#2c2c2c!important;}#mermaid-1775807451700 .done0,#mermaid-1775807451700 .done1,#mermaid-1775807451700 .done2,#mermaid-1775807451700 .done3{stroke:grey;fill:lightgrey;stroke-width:2;}#mermaid-1775807451700 .doneText0,#mermaid-1775807451700 .doneText1,#mermaid-1775807451700 .doneText2,#mermaid-1775807451700 .doneText3{fill:#2c2c2c!important;}#mermaid-1775807451700 .doneText0.taskTextOutsideLeft,#mermaid-1775807451700 .doneText0.taskTextOutsideRight,#mermaid-1775807451700 .doneText1.taskTextOutsideLeft,#mermaid-1775807451700 .doneText1.taskTextOutsideRight,#mermaid-1775807451700 .doneText2.taskTextOutsideLeft,#mermaid-1775807451700 .doneText2.taskTextOutsideRight,#mermaid-1775807451700 .doneText3.taskTextOutsideLeft,#mermaid-1775807451700 .doneText3.taskTextOutsideRight{fill:lightgrey!important;}#mermaid-1775807451700 .crit0,#mermaid-1775807451700 .crit1,#mermaid-1775807451700 .crit2,#mermaid-1775807451700 .crit3{stroke:#E83737;fill:#E83737;stroke-width:2;}#mermaid-1775807451700 .activeCrit0,#mermaid-1775807451700 .activeCrit1,#mermaid-1775807451700 .activeCrit2,#mermaid-1775807451700 .activeCrit3{stroke:#E83737;fill:#81B1DB;stroke-width:2;}#mermaid-1775807451700 .doneCrit0,#mermaid-1775807451700 .doneCrit1,#mermaid-1775807451700 .doneCrit2,#mermaid-1775807451700 .doneCrit3{stroke:#E83737;fill:lightgrey;stroke-width:2;cursor:pointer;shape-rendering:crispEdges;}#mermaid-1775807451700 .milestone{transform:rotate(45deg) scale(0.8,0.8);}#mermaid-1775807451700 .milestoneText{font-style:italic;}#mermaid-1775807451700 .doneCritText0,#mermaid-1775807451700 .doneCritText1,#mermaid-1775807451700 .doneCritText2,#mermaid-1775807451700 .doneCritText3{fill:#2c2c2c!important;}#mermaid-1775807451700 .doneCritText0.taskTextOutsideLeft,#mermaid-1775807451700 .doneCritText0.taskTextOutsideRight,#mermaid-1775807451700 .doneCritText1.taskTextOutsideLeft,#mermaid-1775807451700 .doneCritText1.taskTextOutsideRight,#mermaid-1775807451700 .doneCritText2.taskTextOutsideLeft,#mermaid-1775807451700 .doneCritText2.taskTextOutsideRight,#mermaid-1775807451700 .doneCritText3.taskTextOutsideLeft,#mermaid-1775807451700 .doneCritText3.taskTextOutsideRight{fill:lightgrey!important;}#mermaid-1775807451700 .vert{stroke:#00BFFF;}#mermaid-1775807451700 .vertText{font-size:15px;text-anchor:middle;fill:#00BFFF!important;}#mermaid-1775807451700 .activeCritText0,#mermaid-1775807451700 .activeCritText1,#mermaid-1775807451700 .activeCritText2,#mermaid-1775807451700 .activeCritText3{fill:#2c2c2c!important;}#mermaid-1775807451700 .titleText{text-anchor:middle;font-size:18px;fill:#F9FFFE;font-family:'Space Mono',monospace;}#mermaid-1775807451700 .node .neo-node{stroke:#ccc;}#mermaid-1775807451700 [data-look="neo"].node rect,#mermaid-1775807451700 [data-look="neo"].cluster rect,#mermaid-1775807451700 [data-look="neo"].node polygon{stroke:url(#mermaid-1775807451700-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451700 [data-look="neo"].node path{stroke:url(#mermaid-1775807451700-gradient);stroke-width:1px;}#mermaid-1775807451700 [data-look="neo"].node .outer-path{filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451700 [data-look="neo"].node .neo-line path{stroke:#ccc;filter:none;}#mermaid-1775807451700 [data-look="neo"].node circle{stroke:url(#mermaid-1775807451700-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451700 [data-look="neo"].node circle .state-start{fill:#000000;}#mermaid-1775807451700 [data-look="neo"].icon-shape .icon{fill:url(#mermaid-1775807451700-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451700 [data-look="neo"].icon-shape .icon-neo path{stroke:url(#mermaid-1775807451700-gradient);filter:drop-shadow( 1px 2px 2px rgba(185,185,185,1));}#mermaid-1775807451700 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g></g><g class="grid" transform="translate(75, 242)" fill="none" font-size="10" font-family="sans-serif" text-anchor="middle"><path class="domain" stroke="currentColor" d="M0,-207V0H762V-207"></path><g class="tick" opacity="1" transform="translate(0,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Apr 2026</text></g><g class="tick" opacity="1" transform="translate(75,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">May 2026</text></g><g class="tick" opacity="1" transform="translate(152,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Jun 2026</text></g><g class="tick" opacity="1" transform="translate(227,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Jul 2026</text></g><g class="tick" opacity="1" transform="translate(304,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Aug 2026</text></g><g class="tick" opacity="1" transform="translate(381,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Sep 2026</text></g><g class="tick" opacity="1" transform="translate(456,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Oct 2026</text></g><g class="tick" opacity="1" transform="translate(533,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Nov 2026</text></g><g class="tick" opacity="1" transform="translate(608,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Dec 2026</text></g><g class="tick" opacity="1" transform="translate(685,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Jan 2027</text></g><g class="tick" opacity="1" transform="translate(762,0)"><line stroke="currentColor" y2="-207"></line><text fill="#000" y="3" dy="1em" stroke="none" font-size="10" style="text-anchor: middle;">Feb 2027</text></g></g><g><rect x="0" y="48" width="874.5" height="24" class="section section0"></rect><rect x="0" y="72" width="874.5" height="24" class="section section0"></rect><rect x="0" y="96" width="874.5" height="24" class="section section0"></rect><rect x="0" y="120" width="874.5" height="24" class="section section1"></rect><rect x="0" y="144" width="874.5" height="24" class="section section1"></rect><rect x="0" y="168" width="874.5" height="24" class="section section1"></rect><rect x="0" y="192" width="874.5" height="24" class="section section2"></rect><rect x="0" y="216" width="874.5" height="24" class="section section2"></rect></g><g><rect id="mermaid-1775807451700-a1" rx="3" ry="3" x="75" y="50" width="227" height="20" transform-origin="188.5px 60px" class="task task0"></rect><rect id="mermaid-1775807451700-a2" rx="3" ry="3" x="150" y="74" width="306" height="20" transform-origin="303px 84px" class="task task0"></rect><rect id="mermaid-1775807451700-a3" rx="3" ry="3" x="150" y="98" width="306" height="20" transform-origin="303px 108px" class="task task0"></rect><rect id="mermaid-1775807451700-b1" rx="3" ry="3" x="456" y="122" width="152" height="20" transform-origin="532px 132px" class="task task1"></rect><rect id="mermaid-1775807451700-b2" rx="3" ry="3" x="456" y="146" width="152" height="20" transform-origin="532px 156px" class="task task1"></rect><rect id="mermaid-1775807451700-b3" rx="3" ry="3" x="531" y="170" width="77" height="20" transform-origin="569.5px 180px" class="task task1"></rect><rect id="mermaid-1775807451700-c1" rx="3" ry="3" x="608" y="194" width="152" height="20" transform-origin="684px 204px" class="task task2"></rect><rect id="mermaid-1775807451700-c2" rx="3" ry="3" x="683" y="218" width="154" height="20" transform-origin="760px 228px" class="task task2"></rect><text id="mermaid-1775807451700-a1-text" font-size="11" x="188.5" y="63.5" class="taskText taskText0  width-215.4296875">Tier 0 scanning (all categories)       </text><text id="mermaid-1775807451700-a2-text" font-size="11" x="303" y="87.5" class="taskText taskText0  width-228.890625">Tier 1 parsers (Godot + TD + code)     </text><text id="mermaid-1775807451700-a3-text" font-size="11" x="303" y="111.5" class="taskText taskText0  width-195.234375">Canvas UI + node interactions           </text><text id="mermaid-1775807451700-b1-text" font-size="11" x="613" y="135.5" class="taskTextOutsideRight taskTextOutside1  width-154.8359375">SpacetimeDB integration                </text><text id="mermaid-1775807451700-b2-text" font-size="11" x="613" y="159.5" class="taskTextOutsideRight taskTextOutside1  width-222.15625">Git integration + graph snapshots      </text><text id="mermaid-1775807451700-b3-text" font-size="11" x="613" y="183.5" class="taskTextOutsideRight taskTextOutside1  width-154.8359375">Self-host configuration                </text><text id="mermaid-1775807451700-c1-text" font-size="11" x="603" y="207.5" class="taskTextOutsideLeft taskTextOutside2">Tier 2 connectors (Notion + builds)    </text><text id="mermaid-1775807451700-c2-text" font-size="11" x="760" y="231.5" class="taskText taskText2  width-114.4453125">Cross-tool agents                      </text></g><g><text dy="0em" x="10" y="86" font-size="11" class="sectionTitle sectionTitle0"><tspan alignment-baseline="central" x="10">MVP v1</tspan></text><text dy="0em" x="10" y="158" font-size="11" class="sectionTitle sectionTitle1"><tspan alignment-baseline="central" x="10">MVP v2</tspan></text><text dy="0em" x="10" y="218" font-size="11" class="sectionTitle sectionTitle2"><tspan alignment-baseline="central" x="10">MVP v3</tspan></text></g><g class="today"><line x1="99" x2="99" y1="25" y2="267" class="today"></line></g><text x="456" y="25" class="titleText">Ara MVP Roadmap</text></svg></div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>v1 — Multi-Domain Local Graph</h3>
+      <ul style="font-size: 0.85rem; padding-left: 16px; color: var(--dim);">
+        <li>Tier 0 scanning for all categories</li>
+        <li>Tier 1 for Godot, TouchDesigner, Processing + shaders</li>
+        <li>Ara canvas with TouchDesigner-like UX</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>v2 — Collaboration &amp; Self-Host</h3>
+      <ul style="font-size: 0.85rem; padding-left: 16px; color: var(--dim);">
+        <li>SpacetimeDB multi-user graph state</li>
+        <li>Git artifact history + graph snapshots</li>
+        <li>Local-only, self-hosted, and hosted modes</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>v3 — Agents &amp; Connectors</h3>
+      <ul style="font-size: 0.85rem; padding-left: 16px; color: var(--dim);">
+        <li>Tier 2 integrations (Notion, engine builds)</li>
+        <li>Documentation, cartographer, planner agents</li>
+        <li>MCP-unified tool definitions</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════
+     09 — UI/UX INSPIRATION
+     ════════════════════════════════════════════════════════════ -->
+<section id="inspiration" class="fade-in visible">
+  <h4>Section 09</h4>
+  <h2>// UI/UX Inspiration</h2>
+
+  <p>
+    Visual references for Ara's canvas, node graph, and panel-based interactions.
+    Drawn from TouchDesigner, creative coding, and spatial interface patterns.
+  </p>
+
+  <div class="collage">
+    <img src="./Project Ara — Explainer_files/cosmos_109880665.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_12930764.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1359143550.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1427016117.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1497046792.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1524484266.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1540127239.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_313987800.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_325407995.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_373469475.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_520754392.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_543223938.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_624510959.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_645503344.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_358612359.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1830094111.jpeg" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1006189549.gif" alt="Inspiration" loading="lazy">
+    <img src="./Project Ara — Explainer_files/cosmos_1427042013.gif" alt="Inspiration" loading="lazy">
+  </div>
+</section>
+
+<div class="divider">· · · · · · · · · · · · · · · · · · · · · · · · · · ·</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<footer>
+  <pre class="ascii" style="margin-bottom: 16px;">  ┌─────────────────────────────────────┐
+  │  Project Ara · onolonoo collective  │
+  │  MVP 2.0 Technical Blueprint        │
+  │  2026                               │
+  └─────────────────────────────────────┘
+  </pre>
+  <p>ONOLONOO · ARA · 2026</p>
+</footer>
+
+</div><!-- .container -->
+
+<!-- ── Scripts ──────────────────────────────────────────────── -->
+<script>
+  // Initialize Mermaid
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#0a1a2a',
+      primaryBorderColor: '#00d4ff',
+      primaryTextColor: '#c0c8d8',
+      lineColor: '#2a3444',
+      secondaryColor: '#1a2030',
+      tertiaryColor: '#10141c',
+      fontFamily: "'Space Mono', monospace",
+      fontSize: '12px',
+    },
+    gantt: {
+      titleTopMargin: 25,
+      barHeight: 20,
+      barGap: 4,
+      topPadding: 50,
+      sidePadding: 75,
+    },
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+</script>
+
+
+
+<div class="mermaidTooltip" style="opacity: 0; position: absolute; text-align: center; max-width: 200px; padding: 2px; font-size: 12px; background: rgb(255, 255, 222); border: 1px solid rgb(51, 51, 51); border-radius: 2px; pointer-events: none; z-index: 100;"></div></body></html>
