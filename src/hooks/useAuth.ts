@@ -1,19 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from "react";
-import { createAuthClient } from "better-auth/react";
+import { useState, useCallback } from "react";
 
-/** Lazy Better Auth client — only created when user opts into auth. */
-let _authClient: ReturnType<typeof createAuthClient> | null = null;
-
-function getAuthClient() {
-  if (!_authClient) {
-    _authClient = createAuthClient({
-      baseURL: "http://localhost:8787",
-    });
-  }
-  return _authClient;
-}
-
-/** Mock user for guest/dev access. */
 const GUEST_USER = {
   id: "guest",
   name: "Guest",
@@ -26,80 +12,40 @@ const GUEST_USER = {
 
 export function useAuth() {
   const [skipAuth, setSkipAuth] = useState(false);
-  const [sessionLoading, setSessionLoading] = useState(false);
-  const [sessionData, setSessionData] = useState<any>(null);
-  const [sessionError, setSessionError] = useState<string | null>(null);
-
-  const authClient = useRef(getAuthClient());
-
-  // Only check session if not skipping auth and user hasn't explicitly signed out
-  useEffect(() => {
-    if (skipAuth) return;
-
-    let cancelled = false;
-    setSessionLoading(true);
-
-    authClient.current
-      .getSession()
-      .then((res: any) => {
-        if (!cancelled) {
-          setSessionData(res.data ?? null);
-          setSessionError(
-            res.error ? String(res.error.message || res.error) : null,
-          );
-          setSessionLoading(false);
-        }
-      })
-      .catch((err: any) => {
-        if (!cancelled) {
-          setSessionError(String(err.message || err));
-          setSessionLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [skipAuth]);
-
-  const isAuthenticated =
-    skipAuth || (sessionData !== null && sessionData !== undefined);
+  const [error, setError] = useState<string | null>(null);
+  const isAuthenticated = skipAuth;
 
   const skip = useCallback(() => setSkipAuth(true), []);
-
-  const signOut = useCallback(async () => {
-    setSkipAuth(false);
-    try {
-      await authClient.current.signOut();
-    } catch {
-      /* ignore */
-    }
-    setSessionData(null);
-  }, []);
+  const signOut = useCallback(() => setSkipAuth(false), []);
 
   return {
-    user: skipAuth ? GUEST_USER : (sessionData?.user ?? null),
-    session: sessionData,
-    isLoading: sessionLoading,
-    error: sessionError,
+    user: isAuthenticated ? GUEST_USER : null,
+    session: null,
+    isLoading: false,
+    error,
     isAuthenticated,
 
     signIn: {
-      email: authClient.current.signIn.email,
-      social: authClient.current.signIn.social,
+      email: (_params: any) => {
+        setError(
+          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
+        );
+      },
+      social: (_params: any) => {
+        setError(
+          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
+        );
+      },
     },
     signUp: {
-      email: authClient.current.signUp.email,
+      email: (_params: any) => {
+        setError(
+          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
+        );
+      },
     },
     signOut,
-    refresh: async () => {
-      try {
-        const res = await authClient.current.getSession();
-        setSessionData((res as any).data ?? null);
-      } catch {
-        /* ignore */
-      }
-    },
+    refresh: () => {},
     skipAuth: skip,
   };
 }
