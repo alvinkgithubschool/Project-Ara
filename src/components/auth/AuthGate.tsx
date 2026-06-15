@@ -9,7 +9,7 @@ import { useState } from "react";
 export function AuthGate() {
   const { isAuthenticated } = useAuth();
   const { project, clearProject } = useProject();
-  const { graph, scanAndLoad, selectNode } = useGraph();
+  const { graph, isLoading, error, scanAndLoad, selectNode } = useGraph();
   const [showCanvas, setShowCanvas] = useState(false);
 
   if (!isAuthenticated) return <SignIn />;
@@ -36,7 +36,23 @@ export function AuthGate() {
         <ProjectSelect onProjectReady={handleProjectReady} />
       ) : (
         <main style={s.main}>
-          {graph ? (
+          {isLoading && (
+            <div style={s.status}>
+              <p>Scanning project…</p>
+            </div>
+          )}
+          {error && (
+            <div style={s.errorBanner}>
+              <p>Error: {error}</p>
+              <button style={s.retryBtn} onClick={handleRefresh}>
+                Retry
+              </button>
+              <button style={s.retryBtn} onClick={handleSwitchProject}>
+                Switch project
+              </button>
+            </div>
+          )}
+          {!isLoading && !error && graph && (
             <GraphCanvas
               graph={graph}
               onNodeSelect={(nodeId) => {
@@ -48,9 +64,13 @@ export function AuthGate() {
               nodeCount={nodeCount}
               edgeCount={edgeCount}
             />
-          ) : (
+          )}
+          {!isLoading && !error && !graph && (
             <div style={s.empty}>
-              <p>No graph data. Try refreshing the scan.</p>
+              <p>No graph data loaded.</p>
+              <button style={s.retryBtn} onClick={handleRefresh}>
+                Retry scan
+              </button>
             </div>
           )}
         </main>
@@ -67,11 +87,42 @@ const s: Record<string, React.CSSProperties> = {
     flexDirection: "column",
   },
   main: { flex: 1, height: "100%", position: "relative" },
-  empty: {
+  status: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
+    color: "var(--color-text-secondary)",
+    fontSize: 14,
+  },
+  empty: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    gap: 12,
     color: "var(--color-text-tertiary)",
+  },
+  errorBanner: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    gap: 12,
+    color: "var(--color-error)",
+    padding: 20,
+    textAlign: "center",
+  },
+  retryBtn: {
+    padding: "6px 16px",
+    backgroundColor: "var(--color-bg)",
+    color: "var(--color-text)",
+    border: "1px solid var(--color-border)",
+    borderRadius: 6,
+    fontSize: 13,
+    cursor: "pointer",
+    marginTop: 8,
   },
 };
