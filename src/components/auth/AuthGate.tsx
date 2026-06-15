@@ -5,22 +5,33 @@ import { useProject } from "../../hooks/useProject";
 import { useGraph } from "../../hooks/useGraph";
 import { ProjectSelect } from "../project/ProjectSelect";
 import { GraphCanvas } from "../canvas/GraphCanvas";
-import { Sidebar } from "../layout/Sidebar";
 import { useState } from "react";
 
 export function AuthGate() {
   const { isAuthenticated } = useAuth();
-  const { project } = useProject();
-  const { graph, selectedNode, scanAndLoad, selectNode } = useGraph();
+  const { project, clearProject } = useProject();
+  const { graph, scanAndLoad, selectNode } = useGraph();
   const [showCanvas, setShowCanvas] = useState(false);
 
-  // Show sign-in immediately — session check runs in background.
-  // The loading state only matters for the initial app boot.
-  if (!isAuthenticated) {
-    return <SignIn />;
-  }
+  if (!isAuthenticated) return <SignIn />;
 
-  // Authenticated — show the app
+  const handleProjectReady = async (p: { rootPath: string }) => {
+    await scanAndLoad(p.rootPath);
+    setShowCanvas(true);
+  };
+
+  const handleRefresh = async () => {
+    if (project) await scanAndLoad(project.rootPath);
+  };
+
+  const handleSwitchProject = () => {
+    setShowCanvas(false);
+    clearProject();
+  };
+
+  const nodeCount = graph?.nodes.length || 0;
+  const edgeCount = graph?.edges.length || 0;
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.userMenuBar}>
@@ -28,39 +39,27 @@ export function AuthGate() {
       </div>
 
       {!showCanvas ? (
-        <ProjectSelect
-          onProjectReady={async (scannedProject) => {
-            await scanAndLoad(scannedProject.rootPath);
-            setShowCanvas(true);
-          }}
-        />
+        <ProjectSelect onProjectReady={handleProjectReady} />
       ) : (
-        <div style={styles.layout}>
-          <Sidebar
-            projectName={project?.name || ""}
-            nodeCount={graph?.nodes.length || 0}
-            edgeCount={graph?.edges.length || 0}
-            onRefresh={async () => {
-              if (project) await scanAndLoad(project.rootPath);
-            }}
-          />
-          <main style={styles.main}>
-            {graph ? (
-              <GraphCanvas
-                graph={graph}
-                selectedNode={selectedNode}
-                onNodeSelect={(nodeId) => {
-                  if (project) selectNode(project.rootPath, nodeId);
-                }}
-                onNodeDeselect={() => selectNode("", "")}
-              />
-            ) : (
-              <div style={styles.empty}>
-                <p>No graph data. Try refreshing the scan.</p>
-              </div>
-            )}
-          </main>
-        </div>
+        <main style={styles.main}>
+          {graph ? (
+            <GraphCanvas
+              graph={graph}
+              onNodeSelect={(nodeId) => {
+                if (project) selectNode(project.rootPath, nodeId);
+              }}
+              onNodeDeselect={() => selectNode("", "")}
+              onRefresh={handleRefresh}
+              onSwitchProject={handleSwitchProject}
+              nodeCount={nodeCount}
+              edgeCount={edgeCount}
+            />
+          ) : (
+            <div style={styles.empty}>
+              <p>No graph data. Try refreshing the scan.</p>
+            </div>
+          )}
+        </main>
       )}
     </div>
   );
@@ -79,16 +78,7 @@ const styles: Record<string, React.CSSProperties> = {
     right: "var(--space-4)",
     zIndex: 100,
   },
-  layout: {
-    display: "flex",
-    height: "100%",
-    width: "100%",
-  },
-  main: {
-    flex: 1,
-    height: "100%",
-    position: "relative",
-  },
+  main: { flex: 1, height: "100%", position: "relative" },
   empty: {
     display: "flex",
     alignItems: "center",
