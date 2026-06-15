@@ -45,3 +45,11 @@ Project Ara is a local-first multi-domain creative project control room. The cur
 - premature plugin systems
 - overdesigned animation before the graph works
 - mixing auth storage with project graph storage
+
+## Auth architecture
+- The auth server lives in `server/` and runs Better Auth on Node.js with SQLite (`ara_auth.db`).
+- Start it manually: `cd server && node index.js` (listens on `:8787`).
+- OAuth providers (GitHub, Google) are configured via environment variables: `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`.
+- The React frontend currently uses a stub `useAuth` hook that offers a 'Continue without account' skip path. This needs no server.
+- Full Better Auth React client integration is deferred until the server auto-start is solved (see FIXLIST).
+- The old custom Rust auth modules (`src-tauri/src/auth/`) have been removed. Do not reintroduce them.
