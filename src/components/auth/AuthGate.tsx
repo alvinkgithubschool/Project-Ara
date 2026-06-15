@@ -1,6 +1,5 @@
 import { useAuth } from "../../hooks/useAuth";
 import { SignIn } from "./SignIn";
-import { UserMenu } from "./UserMenu";
 import { useProject } from "../../hooks/useProject";
 import { useGraph } from "../../hooks/useGraph";
 import { ProjectSelect } from "../project/ProjectSelect";
@@ -23,7 +22,6 @@ export function AuthGate() {
   const handleRefresh = async () => {
     if (project) await scanAndLoad(project.rootPath);
   };
-
   const handleSwitchProject = () => {
     setShowCanvas(false);
     clearProject();
@@ -33,15 +31,11 @@ export function AuthGate() {
   const edgeCount = graph?.edges.length || 0;
 
   return (
-    <div style={styles.wrapper}>
-      <div style={styles.userMenuBar}>
-        <UserMenu />
-      </div>
-
+    <div style={s.wrapper}>
       {!showCanvas ? (
         <ProjectSelect onProjectReady={handleProjectReady} />
       ) : (
-        <main style={styles.main}>
+        <main style={s.main}>
           {graph ? (
             <GraphCanvas
               graph={graph}
@@ -55,7 +49,7 @@ export function AuthGate() {
               edgeCount={edgeCount}
             />
           ) : (
-            <div style={styles.empty}>
+            <div style={s.empty}>
               <p>No graph data. Try refreshing the scan.</p>
             </div>
           )}
@@ -65,18 +59,12 @@ export function AuthGate() {
   );
 }
 
-const styles: Record<string, React.CSSProperties> = {
+const s: Record<string, React.CSSProperties> = {
   wrapper: {
     height: "100%",
     width: "100%",
     display: "flex",
     flexDirection: "column",
-  },
-  userMenuBar: {
-    position: "absolute",
-    top: "var(--space-4)",
-    right: "var(--space-4)",
-    zIndex: 100,
   },
   main: { flex: 1, height: "100%", position: "relative" },
   empty: {

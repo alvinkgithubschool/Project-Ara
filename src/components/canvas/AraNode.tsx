@@ -1,14 +1,11 @@
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { Handle, Position, NodeResizer, type NodeProps } from "@xyflow/react";
 import type { GraphNode as AraNode } from "../../core/graph";
 
 const TYPE_COLORS: Record<string, { border: string; bg: string }> = {
-  project: { border: "rgba(17,17,17,0.6)", bg: "rgba(17,17,17,0.04)" },
-  folder: { border: "rgba(85,85,85,0.5)", bg: "rgba(85,85,85,0.03)" },
-  file: { border: "rgba(136,136,136,0.4)", bg: "rgba(136,136,136,0.02)" },
-  parsed_entity: {
-    border: "rgba(170,170,170,0.35)",
-    bg: "rgba(170,170,170,0.02)",
-  },
+  project: { border: "#1a1a1a", bg: "rgba(0,0,0,0.04)" },
+  folder: { border: "#555555", bg: "rgba(80,80,80,0.04)" },
+  file: { border: "#666666", bg: "rgba(100,100,100,0.03)" },
+  parsed_entity: { border: "#888888", bg: "rgba(130,130,130,0.02)" },
 };
 
 const SHORT_LABELS: Record<string, string> = {
@@ -51,10 +48,23 @@ export function AraNode({ data, selected }: NodeProps) {
     <div
       style={{
         ...s.container,
-        borderColor: selected ? "#111" : colors.border,
-        backgroundColor: selected ? "rgba(0,0,0,0.02)" : "#fff",
+        borderColor: colors.border,
+        backgroundColor: "#fff",
       }}
     >
+      <NodeResizer
+        isVisible={selected}
+        minWidth={120}
+        minHeight={80}
+        handleStyle={{
+          width: 8,
+          height: 8,
+          borderRadius: 2,
+          backgroundColor: "#333",
+          border: "2px solid #fff",
+        }}
+        lineStyle={{ borderColor: "#333" }}
+      />
       <Handle type="target" position={Position.Top} style={s.handle} />
       <Handle type="source" position={Position.Bottom} style={s.handle} />
       <div style={s.preview}>
@@ -128,8 +138,8 @@ const s: Record<string, React.CSSProperties> = {
     border: "2px solid #ccc",
     borderRadius: 8,
     padding: "6px 8px 0 8px",
-    minWidth: 140,
-    maxWidth: 200,
+    minWidth: 120,
+    maxWidth: 240,
     fontFamily: "var(--font-sans)",
     fontSize: 11,
     color: "var(--color-text)",
@@ -137,7 +147,7 @@ const s: Record<string, React.CSSProperties> = {
     boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
     cursor: "pointer",
   },
-  handle: { width: 6, height: 6, backgroundColor: "#999", border: "none" },
+  handle: { width: 6, height: 6, backgroundColor: "#555", border: "none" },
   preview: { marginBottom: 4 },
   name: {
     fontWeight: 600,
@@ -160,10 +170,10 @@ const s: Record<string, React.CSSProperties> = {
     fontWeight: 600,
     textTransform: "uppercase",
     letterSpacing: "0.05em",
-    color: "var(--color-text-tertiary)",
+    color: "var(--color-text-secondary)",
     textAlign: "center",
-    borderTop: "1px solid #e5e5e5",
-    backgroundColor: "rgba(0,0,0,0.015)",
+    borderTop: "1px solid #ddd",
+    backgroundColor: "rgba(0,0,0,0.02)",
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
   },

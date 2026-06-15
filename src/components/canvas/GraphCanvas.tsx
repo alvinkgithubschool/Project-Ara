@@ -6,6 +6,7 @@ import {
   MiniMap,
   useNodesState,
   useEdgesState,
+  useReactFlow,
   type Node,
   type Edge,
 } from "@xyflow/react";
@@ -13,20 +14,19 @@ import "@xyflow/react/dist/style.css";
 
 import type { GraphSnapshot, GraphNode as AraNode } from "../../core/graph";
 import { AraNode as AraNodeComponent } from "./AraNode";
-import { CanvasToolbar } from "./CanvasToolbar";
+import { TopToolbar } from "./TopToolbar";
+import { BottomBar } from "./BottomBar";
 
 const nodeTypes = { araNode: AraNodeComponent };
 
-/** Edge colors by type. */
 const EDGE_COLORS: Record<string, string> = {
   contains: "#d4d4d4",
-  uses: "#a0a0a0",
-  derived_from: "#888",
+  uses: "#888",
+  derived_from: "#666",
   inspired_by: "#bbb",
   discuss: "#999",
 };
 
-/** Classification colors for minimap. */
 const CLASS_COLORS: Record<string, string> = {
   image: "#e2e8f0",
   audio: "#fef3c7",
@@ -46,14 +46,9 @@ function toReactFlow(graph: GraphSnapshot): { nodes: Node[]; edges: Edge[] } {
   const nodes: Node[] = graph.nodes.map((n, i) => ({
     id: n.id,
     type: "araNode",
-    position: {
-      x: (i % 10) * 220 + 30,
-      y: Math.floor(i / 10) * 200 + 30,
-    },
-    data: {
-      araNode: n,
-      label: n.label,
-    },
+    position: { x: (i % 10) * 220 + 30, y: Math.floor(i / 10) * 200 + 30 },
+    data: { araNode: n, label: n.label },
+    draggable: true,
   }));
 
   const edges: Edge[] = graph.edges.map((e) => {
@@ -102,6 +97,7 @@ export function GraphCanvas({
   const initialElements = useMemo(() => toReactFlow(graph), [graph]);
   const [nodes, , onNodesChange] = useNodesState(initialElements.nodes);
   const [edges, , onEdgesChange] = useEdgesState(initialElements.edges);
+  const { fitView, getZoom } = useReactFlow();
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => onNodeSelect(node.id),
@@ -121,10 +117,11 @@ export function GraphCanvas({
     [graph],
   );
 
+  const zoom = getZoom();
+
   return (
     <div style={styles.wrapper}>
-      {/* Toolbar */}
-      <CanvasToolbar
+      <TopToolbar
         onRefresh={onRefresh}
         onSwitchProject={onSwitchProject}
         nodeCount={nodeCount}
@@ -155,6 +152,14 @@ export function GraphCanvas({
             style={{ backgroundColor: "var(--color-bg-secondary)" }}
           />
         </ReactFlow>
+
+        <BottomBar
+          onAddNote={() => {}}
+          onAddImage={() => {}}
+          onAddLink={() => {}}
+          onFitView={() => fitView({ padding: 0.2, duration: 300 })}
+          zoom={zoom}
+        />
       </div>
     </div>
   );
@@ -168,8 +173,5 @@ const styles: Record<string, React.CSSProperties> = {
     position: "relative",
     height: "100%",
   },
-  flow: {
-    flex: 1,
-    height: "100%",
-  },
+  flow: { flex: 1, height: "100%", position: "relative" },
 };
