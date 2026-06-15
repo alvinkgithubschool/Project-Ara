@@ -1,4 +1,9 @@
+import { createAuthClient } from "better-auth/react";
 import { useState, useCallback } from "react";
+
+const authClient = createAuthClient({
+  baseURL: "http://localhost:8787",
+});
 
 const GUEST_USER = {
   id: "guest",
@@ -12,69 +17,39 @@ const GUEST_USER = {
 
 export function useAuth() {
   const [skipAuth, setSkipAuth] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const isAuthenticated = skipAuth;
+  const session = authClient.useSession();
+
+  const isPending = !skipAuth && session.isPending;
+  const isAuthenticated = skipAuth || session.data?.user != null;
+
+  const user = skipAuth ? GUEST_USER : (session.data?.user ?? null);
 
   const skip = useCallback(() => setSkipAuth(true), []);
+
   const signOut = useCallback(async () => {
     setSkipAuth(false);
-    try {
-      const { createAuthClient } = await import("better-auth/react");
-      const client = createAuthClient({ baseURL: "http://localhost:8787" });
-      await client.signOut();
-    } catch {
-      // Server may not be running — that's ok
-    }
-  }, []);
-
-  const getClient = useCallback(async () => {
-    const { createAuthClient } = await import("better-auth/react");
-    return createAuthClient({ baseURL: "http://localhost:8787" });
-  }, []);
+    await authClient.signOut();
+    session.refetch();
+  }, [session]);
 
   return {
-    user: isAuthenticated ? GUEST_USER : null,
-    session: null,
-    isLoading: false,
-    error,
+    user,
+    session: session.data ?? null,
+    isLoading: isPending,
+    error: session.error
+      ? String(session.error.message || session.error)
+      : null,
     isAuthenticated,
 
     signIn: {
-      email: async (params: { email: string; password: string }) => {
-        try {
-          const client = await getClient();
-          await client.signIn.email(params);
-        } catch (e: any) {
-          setError(
-            e?.message || "Sign in failed — is the auth server running?",
-          );
-        }
-      },
-      social: async (params: { provider: string; callbackURL?: string }) => {
-        try {
-          const client = await getClient();
-          await client.signIn.social(params);
-        } catch (e: any) {
-          setError(e?.message || "Social sign in failed");
-        }
-      },
+      email: authClient.signIn.email,
+      social: authClient.signIn.social,
     },
     signUp: {
-      email: async (params: {
-        name: string;
-        email: string;
-        password: string;
-      }) => {
-        try {
-          const client = await getClient();
-          await client.signUp.email(params);
-        } catch (e: any) {
-          setError(e?.message || "Sign up failed");
-        }
-      },
+      email: authClient.signUp.email,
     },
     signOut,
-    refresh: () => {},
+    refresh: () => session.refetch(),
     skipAuth: skip,
   };
 }
