@@ -29,13 +29,21 @@ impl Drop for AuthServerProcess {
 
 /// Spawn the Better Auth server and store the process handle.
 pub fn start_auth_server(state: &AuthServerProcess) -> Result<u16, String> {
-    let server_dir = std::env::current_dir()
-        .map_err(|e| format!("Cannot get CWD: {e}"))?
-        .join("server");
+    // Try multiple paths: sibling to CWD, or sibling to src-tauri
+    let candidates = vec![
+        std::env::current_dir().unwrap_or_default().join("server"),
+        std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap_or(std::path::Path::new("."))
+            .join("server"),
+    ];
 
-    if !server_dir.join("index.js").exists() {
-        return Err("server/index.js not found — run 'cd server && npm install' first".into());
-    }
+    let server_dir = candidates
+        .into_iter()
+        .find(|d| d.join("index.js").exists())
+        .ok_or("server/index.js not found — run 'cd server && npm install' first")?;
+
+    log::info!("Starting auth server from: {}", server_dir.display());
 
     let mut child = Command::new("node")
         .arg("index.js")
