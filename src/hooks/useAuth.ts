@@ -16,7 +16,21 @@ export function useAuth() {
   const isAuthenticated = skipAuth;
 
   const skip = useCallback(() => setSkipAuth(true), []);
-  const signOut = useCallback(() => setSkipAuth(false), []);
+  const signOut = useCallback(async () => {
+    setSkipAuth(false);
+    try {
+      const { createAuthClient } = await import("better-auth/react");
+      const client = createAuthClient({ baseURL: "http://localhost:8787" });
+      await client.signOut();
+    } catch {
+      // Server may not be running — that's ok
+    }
+  }, []);
+
+  const getClient = useCallback(async () => {
+    const { createAuthClient } = await import("better-auth/react");
+    return createAuthClient({ baseURL: "http://localhost:8787" });
+  }, []);
 
   return {
     user: isAuthenticated ? GUEST_USER : null,
@@ -26,22 +40,37 @@ export function useAuth() {
     isAuthenticated,
 
     signIn: {
-      email: (_params: any) => {
-        setError(
-          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
-        );
+      email: async (params: { email: string; password: string }) => {
+        try {
+          const client = await getClient();
+          await client.signIn.email(params);
+        } catch (e: any) {
+          setError(
+            e?.message || "Sign in failed — is the auth server running?",
+          );
+        }
       },
-      social: (_params: any) => {
-        setError(
-          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
-        );
+      social: async (params: { provider: string; callbackURL?: string }) => {
+        try {
+          const client = await getClient();
+          await client.signIn.social(params);
+        } catch (e: any) {
+          setError(e?.message || "Social sign in failed");
+        }
       },
     },
     signUp: {
-      email: (_params: any) => {
-        setError(
-          "Auth server not running. Use 'Continue without account' or start: cd server && node index.js",
-        );
+      email: async (params: {
+        name: string;
+        email: string;
+        password: string;
+      }) => {
+        try {
+          const client = await getClient();
+          await client.signUp.email(params);
+        } catch (e: any) {
+          setError(e?.message || "Sign up failed");
+        }
       },
     },
     signOut,

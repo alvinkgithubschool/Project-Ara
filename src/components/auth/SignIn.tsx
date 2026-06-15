@@ -32,17 +32,15 @@ export function SignIn() {
     await signIn.email({
       email,
       password,
-      callbackURL: "/",
     });
   };
 
   const handleSignUp = async () => {
     if (!regEmail || !regPassword || regPassword !== regConfirm) return;
     await signUp.email({
-      name: regName,
+      name: regName || regEmail,
       email: regEmail,
       password: regPassword,
-      callbackURL: "/",
     });
   };
 
@@ -51,7 +49,6 @@ export function SignIn() {
     try {
       await signIn.social({
         provider,
-        callbackURL: "/",
       });
     } finally {
       setSocialLoading(null);

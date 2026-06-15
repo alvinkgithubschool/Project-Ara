@@ -40,4 +40,3 @@ Known issues, deferred work, and planned improvements.
 | No progress indicator during scan | Low | Large projects block the UI during scan. Need async progress events from Rust to frontend. |
 | Dark mode only via `prefers-color-scheme` | Low | No manual theme toggle yet. CSS uses media query only. |
 | ReactFlow nodes reposition on re-render | Low | Nodes re-layout on every re-render. Need to persist positions or use `useNodesState` more carefully. |
-| Better Auth server not auto-started | High | `server/` (Node.js + Hono + Better Auth) must be started manually: `cd server && node index.js`. Needs Tauri sidecar integration or a launcher script so it starts with the app. Until then, use 'Continue without account' for guest access. |

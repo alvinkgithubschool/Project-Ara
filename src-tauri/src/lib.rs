@@ -1,3 +1,4 @@
+mod auth_server;
 mod commands;
 mod graph;
 mod parser;
@@ -6,7 +7,6 @@ mod utils;
 
 use std::sync::Mutex;
 
-/// Path to the app data directory, set at startup.
 pub struct AppDataState {
     pub app_data_dir: Mutex<std::path::PathBuf>,
 }
@@ -19,9 +19,11 @@ pub fn run() {
         .manage(AppDataState {
             app_data_dir: Mutex::new(std::env::current_dir().unwrap_or_default()),
         })
+        .manage(auth_server::AuthServerProcess::new())
         .setup(|app| {
-            // Resolve the actual app data directory
             use tauri::Manager;
+
+            // Resolve the actual app data directory
             if let Ok(dir) = app.path().app_data_dir() {
                 if let Some(state) = app.try_state::<AppDataState>() {
                     if let Ok(mut d) = state.app_data_dir.lock() {
@@ -29,6 +31,15 @@ pub fn run() {
                     }
                 }
             }
+
+            // Auto-start the Better Auth server
+            if let Some(state) = app.try_state::<auth_server::AuthServerProcess>() {
+                match auth_server::start_auth_server(&state) {
+                    Ok(port) => log::info!("Auth server started on port {port}"),
+                    Err(e) => log::warn!("Auth server not started: {e}"),
+                }
+            }
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
