@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useEffect } from "react";
 import {
   ReactFlow,
   Controls,
@@ -95,9 +95,15 @@ export function GraphCanvas({
   edgeCount,
 }: GraphCanvasProps) {
   const initialElements = useMemo(() => toReactFlow(graph), [graph]);
-  const [nodes, , onNodesChange] = useNodesState(initialElements.nodes);
-  const [edges, , onEdgesChange] = useEdgesState(initialElements.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialElements.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialElements.edges);
   const { fitView, getZoom } = useReactFlow();
+
+  // Sync nodes/edges when graph changes (e.g. after rescan)
+  useEffect(() => {
+    setNodes(initialElements.nodes);
+    setEdges(initialElements.edges);
+  }, [initialElements]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => onNodeSelect(node.id),
