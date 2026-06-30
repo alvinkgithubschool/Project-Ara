@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use tauri::Emitter;
+
 use crate::commands::project_cmd;
 use crate::graph::types::GraphSnapshot;
 
@@ -7,8 +9,12 @@ use crate::graph::types::GraphSnapshot;
 /// 1. Walk filesystem → build nodes/edges (Tier 0)
 /// 2. Run Tier 1 parsers on supported files
 /// 3. Persist everything to SQLite
+/// 4. Run the intelligence pipeline and emit clustering/connection suggestions
 #[tauri::command]
-pub async fn scan_project(project_root: String) -> Result<GraphSnapshot, String> {
+pub async fn scan_project(
+    app_handle: tauri::AppHandle,
+    project_root: String,
+) -> Result<GraphSnapshot, String> {
     let project_name = PathBuf::from(&project_root)
         .file_name()
         .map(|n| n.to_string_lossy().to_string())
@@ -62,6 +68,21 @@ pub async fn scan_project(project_root: String) -> Result<GraphSnapshot, String>
     crate::graph::ops::insert_edges(&conn, &walk_result.edges).map_err(|e| e.to_string())?;
     crate::graph::ops::insert_nodes(&conn, &parsed_nodes).map_err(|e| e.to_string())?;
     crate::graph::ops::insert_edges(&conn, &parsed_edges).map_err(|e| e.to_string())?;
+
+    // Step 4: Run the intelligence pipeline over the scanned nodes and emit
+    // suggestions for the frontend (clusters + inferred connections). These are
+    // non-blocking hints — emit failures are logged but never fail the scan.
+    let cluster_engine = crate::intelligence::clustering::ClusteringEngine::new();
+    let clusters = cluster_engine.run(&walk_result.nodes);
+    if let Err(e) = app_handle.emit("intelligence:clusters", &clusters) {
+        log::warn!("Failed to emit clustering hints: {e}");
+    }
+
+    let link_engine = crate::intelligence::linking::LinkEngine::new();
+    let suggestions = link_engine.run(&walk_result.nodes);
+    if let Err(e) = app_handle.emit("intelligence:suggestions", &suggestions) {
+        log::warn!("Failed to emit connection suggestions: {e}");
+    }
 
     // Return the full graph
     crate::graph::ops::get_full_graph(&conn).map_err(|e| e.to_string())

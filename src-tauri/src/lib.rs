@@ -1,8 +1,10 @@
 mod auth_server;
 mod commands;
 mod graph;
+mod intelligence;
 mod parser;
 mod scanner;
+mod spacetimedb;
 mod utils;
 
 use std::sync::Mutex;
@@ -25,10 +27,17 @@ pub fn run() {
 
             // Resolve the actual app data directory
             if let Ok(dir) = app.path().app_data_dir() {
+                std::fs::create_dir_all(&dir).ok();
                 if let Some(state) = app.try_state::<AppDataState>() {
                     if let Ok(mut d) = state.app_data_dir.lock() {
-                        *d = dir;
+                        *d = dir.clone();
                     }
+                }
+
+                // Initialize the global projects database (canvas state, linked
+                // folders, agent configs). Distinct from per-project graph.db.
+                if let Err(e) = crate::graph::schema::initialize_projects_db(&dir) {
+                    log::error!("Failed to initialize projects.db: {e}");
                 }
             }
 
@@ -48,6 +57,12 @@ pub fn run() {
             commands::graph_cmd::get_graph,
             commands::graph_cmd::get_graph_node,
             commands::graph_cmd::get_graph_node_edges,
+            commands::canvas_cmd::upsert_canvas_object,
+            commands::canvas_cmd::upsert_canvas_state,
+            commands::canvas_cmd::load_canvas_state,
+            commands::canvas_cmd::delete_canvas_object,
+            commands::canvas_cmd::save_viewport,
+            spacetimedb::get_spacetimedb_status,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Project Ara");

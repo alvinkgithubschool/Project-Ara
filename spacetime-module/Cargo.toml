@@ -1,0 +1,14 @@
+[package]
+name = "project-ara-stdb"
+version = "0.1.0"
+edition = "2021"
+description = "SpacetimeDB server module for Project Ara (real-time graph state). Built and published separately via the `spacetime` CLI — NOT part of the Tauri app build."
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Pin against the version reported by your installed `spacetime` CLI
+# (`spacetime version`). The module is compiled to WASM by `spacetime publish`,
+# so it is intentionally outside the app's cargo workspace.
+spacetimedb = "1.0"
