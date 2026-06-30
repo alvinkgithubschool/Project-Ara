@@ -32,6 +32,19 @@ Known issues, deferred work, and planned improvements.
 | Performance | Medium | For large projects (>10K files), batch SQLite inserts and add progress reporting. |
 | Windows support | Medium | Test on Windows; fix path separator issues in scanner. |
 
+## Post-sprint follow-ups (v0.2.0 demo build)
+
+| Item | Priority | Notes |
+|------|----------|-------|
+| Persist accepted connections | High | Accept/dismiss/defer in the Connection Report only mutate local UI state. Accepted suggestions should write `edges` into `.ara/graph.db`. |
+| Project registry row | Medium | `projects.db` canvas/folder rows use `rootPath` as `project_id`; no row is inserted into `projects` and FK enforcement is off (`PRAGMA foreign_keys` not enabled). Add a `create_project` command and enable FKs. |
+| Cluster → sub-canvas wiring | Medium | `ClusterNode.onOpen` and `useCanvas.navigate` exist but cluster hints are not yet materialized into child `canvas_state` rows, so double-click drill-in is not end-to-end. |
+| Agent config persistence | Medium | `SettingsPanel` stores the MCP endpoint/enabled flag in `localStorage`, not the `agent_configs` table. Wire to a Tauri command. |
+| SpacetimeDB real sync | Medium | App-side module is a stub; `spacetime-module/` is published separately. Pushing graph state through reducers is not implemented. Status indicator reports "wired, not synced". |
+| `spacetime-module` build coverage | Low | Not part of `cargo check` (separate WASM toolchain). Confirm the `spacetimedb` crate version and macro API against the installed `spacetime` CLI before publishing. |
+| Suggestion dedup across rescans | Low | Each scan re-emits suggestions; they are not deduped against previously accepted/dismissed ones. |
+| Desktop runtime verification | Medium | v0.2.0 changes were verified via `cargo check`, `tsc`, and `vite build`; the full Tauri desktop flow (note persistence across restart, drill-in) was not run in a GUI session. |
+
 ## Known issues (current)
 
 | Issue | Severity | Notes |

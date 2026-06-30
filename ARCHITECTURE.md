@@ -38,8 +38,16 @@
 | `parser/shader` | Shader include detection, source import detection | `graph/types`, `utils/error` |
 | `auth/oauth` | OAuth 2.0 flow (local server, browser, token exchange) | `utils/error` |
 | `auth/session` | Session struct, store keys | `auth/oauth` |
+| `intelligence/` | Ecosystem adapters, registry, clustering + linking engines | `graph/types` |
+| `intelligence/adapters/godot` | Full-tier Godot adapter (name-based clustering) | `intelligence`, `graph/types` |
+| `spacetimedb/` | Connection-state stub + `get_spacetimedb_status` (no SDK dep) | None |
+| `commands/canvas_cmd` | Canvas state CRUD on `projects.db` | `graph/schema` |
 | `commands/*` | Tauri IPC command handlers | All modules above |
 | `utils/error` | AppError enum with Display and From impls | None |
+
+> Real SpacetimeDB sync is intentionally out of the app crate. The server module
+> is a standalone crate, `spacetime-module/` (compiled to WASM via the
+> `spacetime` CLI), so the app build never depends on the SpacetimeDB toolchain.
 
 ## Frontend module map (src/)
 
@@ -51,12 +59,17 @@
 | `hooks/useAuth` | Auth state management, session restore |
 | `hooks/useProject` | Project selection, .ara bootstrap |
 | `hooks/useGraph` | Scan, load, node selection |
+| `core/ecosystem` | Ecosystem registry + tiers (mirrors Rust adapters) |
+| `core/canvas` | Canvas object/state + suggestion/cluster types |
+| `hooks/useCanvas` | Root canvas seeding, navigation, note create/persist |
+| `hooks/useIntelligence` | Subscribes to scan suggestion/cluster events |
 | `adapters/tauri/commands` | Typed wrappers for all Tauri IPC calls |
-| `components/auth/*` | SignIn, UserMenu, AuthGate |
+| `components/auth/*` | SignIn, UserMenu, AuthGate (app shell + integration) |
 | `components/project/*` | ProjectSelect |
-| `components/canvas/*` | GraphCanvas, NodeDetail |
-| `components/layout/*` | AppShell, Sidebar |
-| `styles/*` | CSS token system (fonts, theme, globals) |
+| `components/canvas/*` | GraphCanvas, NodeDetail, ConnectionReport, BreadcrumbBar, nodes/* (Note/File/Cluster) |
+| `components/settings/*` | SettingsPanel (theme, STDB status, agent config) |
+| `components/layout/*` | Sidebar |
+| `styles/*` | CSS token system (fonts, theme, colors, globals) |
 
 ## Data flow
 
@@ -81,8 +94,12 @@ User Action → React Component → Hook → Tauri Command Adapter
 
 ## Key design decisions
 
-### Why SQLite per project?
-Each project's graph is self-contained in `.ara/graph.db`. This keeps projects portable, avoids cross-project contamination, and makes it trivial to back up or version the graph.
+### Two SQLite databases
+- **Per-project `.ara/graph.db`** — the scan graph (nodes/edges). Self-contained
+  per project: portable, no cross-project contamination, trivial to back up.
+- **Global `projects.db`** (app data dir) — app-level state spanning projects:
+  the project registry, linked folders, canvas state (notes/media), and agent
+  configs. This keeps auth/canvas/app state out of the per-project graph.
 
 ### Why OAuth via local HTTP server?
 Desktop OAuth needs a redirect URI. A local HTTP server on a random port is the most portable approach. It avoids platform-specific deep link handling and works identically on macOS, Windows, and Linux.
