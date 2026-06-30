@@ -1,0 +1,40 @@
+# Render Blueprint for the Project Ara auth server.
+#
+# NOTE: Render auto-detects a Blueprint named `render.yaml` at the REPOSITORY
+# ROOT. This file lives in `server/`; to deploy via Blueprint either copy/move
+# it to the repo root, or create the Web Service manually in the Render
+# dashboard using the build/start commands below. The `cd server` prefixes
+# assume the repo root is the working directory.
+services:
+  - type: web
+    name: project-ara-auth
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && node index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ara-auth-db
+          property: connectionString
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: AUTH_PORT
+        value: "8787"
+      - key: CORS_ORIGIN
+        value: "tauri://localhost"
+
+databases:
+  - name: ara-auth-db
+    plan: free
+    postgresMajorVersion: 16

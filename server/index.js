@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { auth } from "./auth.js";
+import { auth, trustedOrigins } from "./auth.js";
 import { serve } from "@hono/node-server";
 
 // Await context and run migrations
@@ -12,10 +12,12 @@ if (ctx.runMigrations) {
 
 const app = new Hono();
 
+// CORS origins mirror the auth trustedOrigins (localhost + tauri://localhost +
+// anything supplied via CORS_ORIGIN) so the deployed server accepts the app.
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:1420", "http://localhost:8787"],
+    origin: trustedOrigins,
     credentials: true,
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization", "Origin"],
