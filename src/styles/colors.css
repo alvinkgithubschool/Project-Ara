@@ -1,0 +1,87 @@
+/* ── Ecosystem colors ─────────────────────────────────── */
+:root {
+  --eco-godot:        #00d4ff;  /* Cyan — Godot Engine */
+  --eco-blender:      #d4882a;  /* Amber — Blender */
+  --eco-unity:        #888888;  /* Gray — Unity */
+  --eco-touchdesigner:#259C52;  /* Green — TouchDesigner */
+  --eco-cablesgl:     #7c3aed;  /* Purple — Cables.gl */
+  --eco-ableton:      #eab308;  /* Yellow — Ableton Live */
+  --eco-default:      #666666;  /* Dim gray — unknown / generic */
+  --eco-unknown:      #666666;  /* Alias used by FileNode borderLeft */
+
+  /* ── Folder source colors (8-color palette) ─────────── */
+  --folder-0: #00d4ff;
+  --folder-1: #259C52;
+  --folder-2: #d4882a;
+  --folder-3: #7c3aed;
+  --folder-4: #ff6ec4;
+  --folder-5: #eab308;
+  --folder-6: #e83737;
+  --folder-7: #888888;
+
+  /* ── Confidence levels ───────────────────────────────── */
+  --confidence-high:   1.0;
+  --confidence-medium: 0.7;
+  --confidence-low:    0.4;
+
+  /* ── Edge styles ─────────────────────────────────────── */
+  --edge-confirmed:  solid;
+  --edge-inferred:   dashed;
+  --edge-user:       solid;
+  --edge-portal:     dotted;
+
+  /* ── State colors ────────────────────────────────────── */
+  --state-hover-border:    2px;
+  --state-selected-glow:   0 0 8px;
+}
+
+/* ── Ecosystem border treatments ──────────────────────── */
+.node--godot        { border-left-color: var(--eco-godot) !important; }
+.node--blender      { border-left-color: var(--eco-blender) !important; }
+.node--unity        { border-left-color: var(--eco-unity) !important; }
+.node--touchdesigner{ border-left-color: var(--eco-touchdesigner) !important; }
+.node--cablesgl     { border-left-color: var(--eco-cablesgl) !important; }
+.node--ableton      { border-left-color: var(--eco-ableton) !important; }
+.node--unknown      { border-left-color: var(--eco-default) !important; }
+.node--canvas-native{ border-left-color: var(--color-accent) !important; }
+
+/* ── Folder corner tags ───────────────────────────────── */
+.folder-tag {
+  position: absolute;
+  top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 10px 10px 0;
+  border-color: transparent;
+}
+.folder-tag--0  { border-right-color: var(--folder-0); }
+.folder-tag--1  { border-right-color: var(--folder-1); }
+.folder-tag--2  { border-right-color: var(--folder-2); }
+.folder-tag--3  { border-right-color: var(--folder-3); }
+.folder-tag--4  { border-right-color: var(--folder-4); }
+.folder-tag--5  { border-right-color: var(--folder-5); }
+.folder-tag--6  { border-right-color: var(--folder-6); }
+.folder-tag--7  { border-right-color: var(--folder-7); }
+
+/* ── Edge confidence opacity ──────────────────────────── */
+.edge--high    { opacity: var(--confidence-high); }
+.edge--medium  { opacity: var(--confidence-medium); }
+.edge--low     { opacity: var(--confidence-low); }
+
+/* ── Edge type dashes ─────────────────────────────────── */
+.edge--inferred { stroke-dasharray: 8 4; }
+.edge--portal   { stroke-dasharray: 2 4; stroke-width: 2px; }
+
+/* ── Tier badges ──────────────────────────────────────── */
+.tier-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.tier-badge--full      { background: rgba(0, 212, 255, 0.12); color: var(--eco-godot); }
+.tier-badge--partial   { background: rgba(37, 156, 82, 0.12); color: var(--eco-touchdesigner); }
+.tier-badge--reference { background: rgba(102, 102, 102, 0.12); color: var(--eco-default); }

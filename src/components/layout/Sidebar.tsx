@@ -3,12 +3,29 @@ interface SidebarProps {
   nodeCount: number;
   edgeCount: number;
   onRefresh: () => void;
+  pendingConnections?: number;
+  onOpenConnections?: () => void;
+  onAddNote?: () => void;
+  onOpenSettings?: () => void;
+  spacetimeConnected?: boolean;
+  spacetimeLabel?: string;
 }
 
 /**
  * Sidebar showing project info, graph stats, and controls.
  */
-export function Sidebar({ projectName, nodeCount, edgeCount, onRefresh }: SidebarProps) {
+export function Sidebar({
+  projectName,
+  nodeCount,
+  edgeCount,
+  onRefresh,
+  pendingConnections = 0,
+  onOpenConnections,
+  onAddNote,
+  onOpenSettings,
+  spacetimeConnected = false,
+  spacetimeLabel = "SpacetimeDB",
+}: SidebarProps) {
   return (
     <aside style={styles.sidebar}>
       <div style={styles.branding}>
@@ -31,9 +48,35 @@ export function Sidebar({ projectName, nodeCount, edgeCount, onRefresh }: Sideba
         <button style={styles.actionButton} onClick={onRefresh}>
           Rescan Project
         </button>
+        {onAddNote && (
+          <button style={styles.actionButton} onClick={onAddNote}>
+            + Add Note
+          </button>
+        )}
+        {onOpenConnections && (
+          <button style={styles.actionButton} onClick={onOpenConnections}>
+            Connections{pendingConnections > 0 ? ` (${pendingConnections})` : ""}
+          </button>
+        )}
+        {onOpenSettings && (
+          <button style={styles.actionButton} onClick={onOpenSettings}>
+            Settings
+          </button>
+        )}
       </div>
 
       <div style={styles.footer}>
+        <div style={styles.stdbRow}>
+          <span
+            style={{
+              ...styles.stdbDot,
+              backgroundColor: spacetimeConnected
+                ? "var(--eco-touchdesigner)"
+                : "var(--color-text-tertiary)",
+            }}
+          />
+          <span style={styles.footerText}>{spacetimeLabel}</span>
+        </div>
         <p style={styles.footerText}>
           Graph stored in <code>.ara/graph.db</code>
         </p>
@@ -117,6 +160,20 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: 'auto',
     paddingTop: 'var(--space-4)',
     borderTop: '1px solid var(--color-border-light)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-2)',
+  },
+  stdbRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-2)',
+  },
+  stdbDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 'var(--radius-full)',
+    flexShrink: 0,
   },
   footerText: {
     fontSize: 'var(--text-xs)',

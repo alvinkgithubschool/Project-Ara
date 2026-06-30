@@ -7,6 +7,7 @@
 
 import { invoke } from "@tauri-apps/api/core";
 import type { GraphNode, GraphEdge, GraphSnapshot } from "../../core/graph";
+import type { CanvasObjectData, CanvasStateData } from "../../core/canvas";
 import type {
   UserProfile,
   TOTPSetup,
@@ -127,4 +128,47 @@ export async function getGraphNodeEdges(
   nodeId: string,
 ): Promise<GraphEdge[]> {
   return invoke<GraphEdge[]>("get_graph_node_edges", { projectRoot, nodeId });
+}
+
+// ── Canvas state ────────────────────────────────────────────────────
+
+export async function upsertCanvasObject(obj: CanvasObjectData): Promise<void> {
+  return invoke<void>("upsert_canvas_object", { obj });
+}
+
+export async function upsertCanvasState(canvas: CanvasStateData): Promise<void> {
+  return invoke<void>("upsert_canvas_state", { canvas });
+}
+
+export async function loadCanvasState(
+  projectId: string,
+  canvasId: string,
+): Promise<CanvasStateData> {
+  return invoke<CanvasStateData>("load_canvas_state", { projectId, canvasId });
+}
+
+export async function deleteCanvasObject(objectId: string): Promise<void> {
+  return invoke<void>("delete_canvas_object", { objectId });
+}
+
+export async function saveViewport(
+  canvasId: string,
+  x: number,
+  y: number,
+  zoom: number,
+): Promise<void> {
+  return invoke<void>("save_viewport", { canvasId, x, y, zoom });
+}
+
+// ── SpacetimeDB (wired, not synced) ─────────────────────────────────
+
+export interface SpacetimeStatus {
+  connected: boolean;
+  identity: string | null;
+  uri: string | null;
+  module: string | null;
+}
+
+export async function getSpacetimedbStatus(): Promise<SpacetimeStatus> {
+  return invoke<SpacetimeStatus>("get_spacetimedb_status");
 }
